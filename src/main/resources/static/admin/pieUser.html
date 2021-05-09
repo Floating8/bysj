@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en" style="height: 100%">
+
+<head>
+    <title>学生统计信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script src="../resources/js/jquery.jtemplates.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="../resources/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/vendor/linearicons/style.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../resources/vendor/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="../resources/vendor/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+    <link rel="stylesheet" href="../resources/app/css/layui.css">
+
+
+
+</head>
+<style>
+    .ff{
+        font: 14px arial,sans-serif;
+    }
+</style>
+<body style="height: 100%; margin: 0">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-gl/dist/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts-stat/dist/ecStat.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts/dist/extension/bmap.min.js"></script>
+<script src="../resources/js/jquery-3.2.1.js"></script>
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div style="padding:0px 10px;" class="brand">
+            <a href="../"><img src="../resources/images/admin/logo1.jpg" alt="Amusing Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/logo.png" id="myhead" height="22px" class="img-circle" alt="Avatar">
+                            <span id="aname">admin</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <a href="javascript:adminLogout();"><i class="lnr lnr-exit"></i> <span>注销</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li>
+                        <a href="index.html" class=""><i class="lnr lnr-home"></i> <span class="ff">后台桌面</span></a>
+                    </li>
+                    <li>
+                        <a href="userlist.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="pieUser.html" class="active"><i class="lnr lnr-user"></i> <span class="ff">学生信息统计</span></a>
+                    </li>
+                    <li>
+                        <a href="leave.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生请假统计</span></a>
+                    </li>
+                    <li>
+                        <a href="backlate.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">学生晚归统计</span></a>
+                    </li>
+                    <li>
+                        <a href="repairinfolist.html" class=""><i class="lnr lnr-pencil"></i><span class="ff">申请维修信息</span></a>
+                    </li>
+                    <li>
+                        <a href="newslist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍公告信息</span></a>
+                    </li>
+                    <li>
+                        <a href="dormlist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="stafflist.html" class=""><i class="lnr lnr-users"></i> <span class="ff">维修员工信息</span></a>
+                    </li>
+                    <li>
+                        <a href="payinfolist.html" class=""><i class="lnr lnr-bookmark"></i> <span class="ff">缴欠费信息单</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+
+        <div class="main-content">
+            <div id="container" style="height: 500px"></div>
+
+
+    <!-- END MAIN -->
+        </div>
+    </div>
+    <div class="clearfix"></div>
+
+    <footer>
+
+        <div class="container-fluid">
+
+        </div>
+    </footer>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        //页面加载的时候，获取当前登录用户的信息
+        $.getJSON("/admin_getLoginUser", function (result) {
+            // alert(JSON.stringify(result));
+            $("#aname").text("欢迎您：" + result.data.aname);
+        });
+    });
+
+
+    $.getJSON("/findCount",function (data) {
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        //alert(result);
+        //alert(JSON.stringify(data));
+        //alert(myChart.getOption().dataZoom[0]);
+        var shuzu=[];
+        var company=[];
+        var kk=[];
+        for(var a=0;a<data.length;a++){
+            //注意，这里的eval函数特别关键，可将后端返回的Json字符串，装有json字符串元素的list集合转为js可用的对象
+            // kk[a]=eval("("+data[a].name+ ")");
+            kk[a]=data[a].name;
+            //company[a]=kk[a].name;
+        }
+
+
+        for(var i=0;i<data.length;i++) {
+            //shuzu[i] = eval('(' + data[i] + ')')
+            shuzu[i] = data[i].count;
+        }
+
+        // alert(kk);
+        // alert(shuzu);
+
+        option = {
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b}: {c} ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                left: 10,
+                data:kk
+            },
+            series: [
+                {
+                    name: '访问来源',
+                    type: 'pie',
+                    radius: ['50%', '70%'],
+                    avoidLabelOverlap: false,
+                    label: {
+                        show: false,
+                        position: 'center'
+                    },
+                    emphasis: {
+                        label: {
+                            show: true,
+                            fontSize: '30',
+                            fontWeight: 'bold'
+                        }
+                    },
+                    labelLine: {
+                        show: false
+                    },
+                    data:(function () {
+                        var arrNum = [];
+                        //var testd = test.tests;
+                        for(var i=0;i<data.length; i++){
+                            arrNum.push({"value": data[i].count,"name":data[i].name});
+                        }
+                        return arrNum;
+                    })(),
+                }
+            ]
+        };
+        ;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+
+    });
+
+    // logout
+    function adminLogout() {
+        if (confirm("确定要注销吗????")) {
+            $.getJSON("/admin_Logout", function (result) {
+                // alert(JSON.stringify(result));
+                if (result.code == 200) {
+                    // alert(111)
+                    alert("注销成功");
+                    location.href = "/admin/login.html";
+                } else {
+                    // alert(322)
+                    alert("操作失败");
+                }
+            });
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+
+    <!-- META TAGS -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>学生宿舍管理系统</title>
+
+    <!-- <link rel="shortcut icon" href="images/favicon.png" /> -->
+    <!-- ICONS -->
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+
+    <!-- Style Sheet-->
+    <link rel="stylesheet" href="../resources/app/css/style.css"/>
+    <link rel='stylesheet' id='bootstrap-css-css'  href='../resources/app/css/bootstrap5152.css?ver=1.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='responsive-css-css'  href='../resources/app/css/responsive5152.css?ver=1.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='pretty-photo-css-css'  href='../resources/app/js/prettyphoto/prettyPhotoaeb9.css?ver=3.1.4' type='text/css' media='all' />
+    <link rel='stylesheet' id='main-css-css'  href='../resources/app/css/main5152.css?ver=1.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='custom-css-css'  href='../resources/app/css/custom5152.html?ver=1.0' type='text/css' media='all' />
+
+    <link rel="stylesheet" href="../resources/app/css/layui.css">
+    <style>
+        #logo {
+            width: 75px;
+            height: 75px;
+        }
+        .morelist{
+            display: none;
+        }
+        .list:hover .morelist{
+            display: block;
+        }
+    </style>
+</head>
+
+<body background="../resources/images/admin/43.jpg">
+
+<!-- Start of Header -->
+<div class="header-wrapper">
+    <header>
+        <div class="container">
+
+
+            <div class="logo-container">
+                <!-- Website Logo -->
+                <a title="Base Theme">
+                    <img src="../resources/images/admin/pzh.jpg" alt="Amusing" id="logo">
+                </a>
+                <span class="tag-line">适时而学，适时而息，张弛有度，健康常伴！</span>
+            </div>
+
+
+            <!-- Start of Main Navigation -->
+            <nav class="main-nav">
+                <div class="menu-top-menu-container">
+                    <ul id="menu-top-menu" class="clearfix">
+                        <li>
+
+                            <span style="color: white;" id="nowUser">欢迎您：admin</span>
+
+                        </li>
+                        <li><a href="index.html">主页</a></li>
+                        <li class="list"><a title="发信息" href="../user/applyrepair.html">申请维修</a></li>
+                        <li><a title="维修的查询" href="../user/myreplys.html">维修查询</a></li>
+                        <li><a title="欠费信息" href="/user/myqfees.html">欠费信息</a></li>
+                        <li><a href="leaves.html">请假信息</a></li>
+                        <li><a href="javascript:userLogout();">注销</a></li>
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of Main Navigation -->
+
+        </div>
+    </header>
+</div>
+
+<div class="layui-carousel" id="test4">
+    <div carousel-item>
+        <div><img src="../resources/app/images/loop/xq4.jpg"></div>
+        <div><img src="../resources/app/images/loop/xq2.jpeg"></div>
+        <div><img src="../resources/app/images/loop/xq3.png"></div>
+    </div>
+</div>
+<link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+<script src="../resources/js/jquery-3.2.1.js"></script>
+<script src="../resources/js/bootstrap.min.js"></script>
+<!--  缴欠费信息开始 -->
+<div class="page-container">
+    <div class="main-content">
+
+        <div class="layui-container">
+            <h3>申请维修</h3>
+            <!--内容就是申请维修的表单地址-->
+            <textarea id="addeditor" name="content" style="width:90%;height:400px;visibility:hidden;"></textarea>
+            <br/>
+            <button type="button" onclick="addRepair();" class="layui-btn">提交</button>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-6" id="page_inf">
+
+        </div>
+        <div class="col-md-6" >
+            <nav aria-label="Page navigation">
+                <ul class="pagination" id="navUl">
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+
+<!--  缴欠费信息结束 -->
+
+<!-- Start of Footer -->
+<footer id="footer-wrapper">
+
+
+    <!-- Footer Bottom -->
+
+    <!-- End of Footer Bottom -->
+
+</footer>
+<!-- End of Footer -->
+
+<a href="#top" id="scroll-top"></a>
+
+<!-- script -->
+<script type='text/javascript' src='../resources/app/js/jquery-1.8.3.min.js'></script>
+<!---1.导入kindEditor的插件-->
+<!-- 2.引入kindEditor的js-->
+<!-- 富文本编辑器 -->
+<link rel="stylesheet" href="../resources/kindEditor/kindeditor/themes/default/default.css"/>
+
+<script charset="utf-8" src="../resources/kindEditor/kindeditor/kindeditor-min.js"></script>
+<script charset="utf-8" src="../resources/kindEditor/kindeditor/lang/zh_CN.js"></script>
+
+<script src="../resources/app/js/layui.js"></script>
+<script>
+
+    //渲染textarea标签，显示富文本编辑器
+    var addeditor;
+    KindEditor.ready(function(K) {
+        addeditor = K.create('#addeditor', {
+            //指定上传文件参数名称等同于<input name="file">属性
+            filePostName  : "file",
+            //指定上传文件请求的url
+            uploadJson : '/uploadimg_kindeditor',  //上传后台地址,这个文件上传的地址需要自定义修改！！！
+            //上传类型，分别为image、flash、media、file
+            dir : "image",
+            //uploadJson : '../plugins/kindeditor/jsp/upload_json.jsp',
+            //fileManagerJson : '../plugins/kindeditor/jsp/file_manager_json.jsp',
+            allowFileManager : true
+        });
+    });
+
+    //申请维修
+    function addRepair() {
+        var content=addeditor.html();
+        // alert(content);
+        $.post("/Repair_add",{"content":content},function (result) {
+            if(result.code==200){
+                alert("新增成功");
+                window.location.reload();
+            }else{
+                alert("新增失败,请稍后重试");
+            }
+        });
+
+    }
+
+
+    $(function () {
+        //页面加载的时候，获取当前登录用户的信息
+        $.getJSON("/user_getLoginUser", function (result) {
+            // alert(JSON.stringify(result));
+            $("#nowUser").text("欢迎您：" + result.data.name);
+        });
+    })
+    //用户注销
+    function userLogout() {
+        if (confirm("确定要注销吗????")) {
+            $.getJSON("/user_Logout", function (result) {
+                // alert(JSON.stringify(result));
+                if (result.code == 200) {
+                    // alert(111)
+                    alert("注销成功");
+                    location.href = "/user/login.html";
+                } else {
+                    // alert(322)
+                    alert(result.msg);
+                }
+            });
+        }
+    }
+
+    //更新显示页面
+    function showUpdatePage() {
+        // alert(111)
+        // alert(id);
+        $("#empUpdateModal form")[0].reset();
+
+        //显示更新表单
+        $("#empUpdateModal").modal({
+            backdrop: "static"
+        });
+        f(id);
+    }
+
+    // 请假
+    function Sleave() {
+        //点击新增按钮，弹出模态框
+        // 先清空表单信息,调用dom对象的重置方法
+        $("#empAddModal form")[0].reset();
+        $("#empAddModal").modal({
+            backdrop: "static"
+        });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>查看照片</title>
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        var image=location.href.split("=")[1];
+        // alert(image);
+
+        $(function () {
+            $("img").prop("src","/images/users/"+image);
+        });
+
+
+    </script>
+</head>
+<body>
+   <img src="/images/users/"/>
+</body>
+</html>

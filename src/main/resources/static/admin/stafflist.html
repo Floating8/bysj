@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>维修员信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script src="../resources/js/jquery.jtemplates.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="../resources/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/vendor/linearicons/style.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../resources/vendor/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="../resources/vendor/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+    <!--引入LayUI样式-->
+    <link rel="stylesheet" href="../resources/layui/css/layui.css">
+    <!--引入LayUI的JS-->
+    <script src="../resources/layui/layui.js"></script>
+</head>
+<style>
+    .ff{
+        font: 14px arial,sans-serif;
+    }
+    .main{
+        background: url("../resources/images/admin/1.jpg");
+    }
+</style>
+
+<body background="../resources/images/admin/1.jpg">
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div style="padding:0px 10px;" class="brand">
+            <a href="../"><img src="../resources/images/admin/logo1.jpg" alt="Amusing Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/logo.png" id="myhead" height="22px" class="img-circle" alt="Avatar">
+                            <span id="aname">admin</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:adminLogout();"><i class="lnr lnr-exit"></i> <span>注销</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li>
+                        <a href="index.html" class=""><i class="lnr lnr-home"></i> <span class="ff">后台桌面</span></a>
+                    </li>
+                    <li>
+                        <a href="userlist.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="pieUser.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生信息统计</span></a>
+                    </li>
+                    <li>
+                        <a href="leave.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生请假统计</span></a>
+                    </li>
+                    <li>
+                        <a href="backlate.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">学生晚归统计</span></a>
+                    </li>
+                    <li>
+                        <a href="repairinfolist.html" class=""><i class="lnr lnr-pencil"></i><span class="ff">申请维修信息</span></a>
+                    </li>
+                    <li>
+                        <a href="newslist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍公告信息</span></a>
+                    </li>
+                    <li>
+                        <a href="dormlist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="stafflist.html" class="active"><i class="lnr lnr-users"></i> <span class="ff">维修员工信息</span></a>
+                    </li>
+                    <li>
+                        <a href="payinfolist.html" class=""><i class="lnr lnr-bookmark"></i> <span class="ff">缴欠费信息单</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- 员工修改模态框 -->
+        <div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="updateForm">
+                            <div class="form-group">
+                                <label  class="col-sm-2 control-label">维修员编号</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="id"/>
+                                    <input type="text" name="no" class="form-control"
+                                           placeholder="请输入这栋楼的名字">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name_update_input" class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" class="form-control" id="name_update_input"
+                                           placeholder="请输入这栋楼的名字">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address_update_input" class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="password" class="form-control" id="address_update_input"
+                                           placeholder="请输入这栋楼的位置">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">性别</label>
+                                <div class="col-sm-10">
+                                    <input type="radio" name="sex" value="男" checked>男
+                                    <input type="radio" name="sex" value="女">女
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height_update_input" class="col-sm-2 control-label">电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="phone" class="form-control" id="height_update_input"
+                                           placeholder="请输入这栋楼的总层数">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">头像</label>
+                                <div class="col-sm-10">
+                                    <button type="button" class="layui-btn" id="updatePhotobtn">上传图片</button>
+                                    <!--隐藏域 上传成功值周图片的名字-->
+                                    <input type="hidden" name="photo" id="updateRepairmanPhoto"/>
+                                    <div class="layui-upload-list">
+                                        <!--回显的图片-->
+                                        <img class="layui-upload-img" id="updateRepairmanImg" width="200px">
+                                        <p id="updatePhotoText"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="update_save_button" onclick="updateRepairman();">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 员工新增模态框 -->
+        <div class="modal fade" id="empAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">新增</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="addForm">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">维修员编号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="no" class="form-control" id="no_add_input"
+                                           placeholder="请输入维修员的编号">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">维修员姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" class="form-control" id="name_add_input"
+                                           placeholder="请输入维修员的姓名">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">性别</label>
+                                <div class="col-sm-10">
+                                    <input type="radio" name="sex" value="男" checked>男
+                                    <input type="radio" name="sex" value="女">女
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">维修员密码</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="password" class="form-control" id="password_add_input"
+                                           placeholder="请输入维修员的电话">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">维修员电话</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="phone" class="form-control" id="phone_add_input"
+                                           placeholder="请输入维修员的电话">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">头像</label>
+                                <div class="col-sm-10">
+                                    <button type="button" class="layui-btn" id="addPhotobtn">上传图片</button>
+                                    <!--隐藏域 上传成功值周图片的名字-->
+                                    <input type="hidden" name="photo" id="addRepairmanPhoto"/>
+                                    <div class="layui-upload-list">
+                                        <!--回显的图片-->
+                                        <img class="layui-upload-img" id="addRepairmanImg" width="200px">
+                                        <p id="addPhotoText"></p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" onclick="addRepairman();" class="btn btn-primary" id="add_save_button">
+                            保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">维修员列表</h3>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-8" style="text-align: right;">
+                        <button class="btn-primary" id="addBtn">新增</button>
+                        <button class="btn-danger" id="batchDeleteBtn" onclick="delete_repairs()">批量删除</button>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-12">
+			   <textarea id="template" style="display:none">
+            <table class="table table-hover table-striped table-bordered" id="emps_table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="all_check_box" onclick="checkAll();"/></th>
+                        <th>id</th>
+	                    <th>维修员编号</th>
+	                    <th>姓名</th>
+	                    <th>密码</th>
+	                    <th>性别</th>
+	                    <th>电话</th>
+						<th>头像</th>
+	                    <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				{#foreach $T.datas as record}
+                <tr>
+					<td><input type="checkbox" class="check_box" value="{$T.record.id}" onclick="check();"></td>
+					<td>{$T.record.id}</td>
+					<td>{$T.record.no}</td>
+					<td>{$T.record.name}</td>
+					<td>{$T.record.password}</td>
+					<td>{$T.record.sex}</td>
+					<td>{$T.record.phone}</td>
+					<td><a href="#"
+                           onclick="window.open('/admin/RepairmanPhoto.html?housemap={$T.record.photo}','户型图','height=700, width=500, top=100, left=500');">
+						查看</a></td>
+					<td><button class="btn-primary btn-xs" onclick="showUpdatePage({$T.record.id});">
+						<span class="glyphicon glyphicon-pencil"></span>编辑</button>
+						<button class="btn-danger btn-xs" onclick="delete_repair({$T.record.id});">
+							<span class="glyphicon glyphicon-trash"></span>删除</button></td>
+				</tr>
+				{#/for}
+                </tbody>
+            </table>
+			</textarea>
+                        <!-- 输出元素 -->
+                        <div id="result1"></div>
+                        <!-- 模板内容 -->
+                        <textarea id="templateNumbers" style="display:none">
+                        <ul class="pagination" id="navUl" style="float: right;">
+                            <li>
+                                <a href="javascript:loadData(1,8);">首页</a>
+                            </li>
+							{#if $T.pageIndex==1}
+                            <li class="disabled">
+                                <a href="#">«</a>
+                            </li>
+                            {#else}
+							<li>
+								<a href="javascript:loadData({$T.pageIndex-1},8);">«</a>
+							</li>
+							{#/if}
+
+							{#foreach $T.numbers as record}
+							<li lang="nums">
+								<a href="javascript:loadData({$T.record},8);">{$T.record}</a>
+							</li>
+							{#/for}
+							{#if $T.pageIndex==$T.pageCount}
+                            <li class="disabled">
+                                <a href="#">»</a>
+                            </li>
+							{#else}
+							<li>
+								<a href="javascript:loadData({$T.pageIndex+1},8);">»</a>
+							</li>
+							{#/if}
+							<li>
+								<a href="javascript:loadData({$T.pageCount},8);">末页</a>
+							</li>
+                            <li>
+								<a>共{$T.pageCount}页</a>
+							</li>
+							<li>
+								<a>共{$T.totalCount}条</a>
+							</li>
+                        </ul>
+						</textarea>
+                        <!-- 输出元素 -->
+                        <div id="resultNUmbers"></div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- <div class="row">
+            <div style="position: fixed;top:500px;left:300px;font-size: 15px;" id="page_info_area">
+            </div>
+            <div style="position: fixed;top:470px;left:800px;font-size: 15px;" id="page_nav_area">
+            </div>
+            </div> -->
+
+            <div class="row">
+                <div style="position: fixed;top:500px;left:300px;font-size: 15px;" class="col-md-6" id="page_inf">
+
+                </div>
+                <div style="position: fixed;top:470px;left:800px;font-size: 15px;" class="col-md-6">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" id="navUl">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- END MAIN CONTENT -->
+    </div>
+
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+
+    <footer>
+
+        <div class="container-fluid">
+        </div>
+    </footer>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+<script src="../resources/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../resources/vendor/klorofil-common.js"></script>
+<script>
+    $(function () {
+        loadData(1, 8);
+    });
+
+    //首页加载数据
+    function loadData(PageIndex, PageSize) {
+        var datas = {"PageIndex": PageIndex, "PageSize": PageSize};
+        $.getJSON("/repairman_list", datas, function (data) {
+            $("#result1").setTemplateElement("template");
+            // 给模板加载数据
+            $("#result1").processTemplate(data);
+            // 附上模板
+            $("#resultNUmbers").setTemplateElement("templateNumbers");
+            // 给模板加载数据
+            $("#resultNUmbers").processTemplate(data);
+            //前端当前页码显示底色
+            $("[lang='nums']").each(function (index, element) {
+                var t = $(element).find("a").text();
+                if (t == data.pageIndex) {
+                    $(element).addClass("active");
+                }
+            });
+        });
+    }
+
+    //删除数据
+    function delete_repair(id) {
+        if (confirm("是否要删除")) {
+            $.getJSON("/repairman_delete", {"id": id}, function (result) {
+                if (result.code == 200) {
+                    alert("删除成功");
+                    location.reload();
+                } else {
+                    alert("删除失败，请重试。")
+                }
+
+            })
+        }
+    }
+
+    //批量删除
+    function delete_repairs() {
+        var ids = new Array();
+        var childs = $(".check_box:checked");
+        if (childs.length > 0) {
+            if (confirm("确定要删除吗？")) {
+                for (let i = 0; i < childs.length; i++) {
+                    var id = childs[i].value;
+                    ids.push(id);
+                }
+                $.post("/repairers_delete", {"ids": ids.toString()}, function (result) {
+                    if (result.code == 200) {
+                        alert("删除成功");
+                        location.reload();
+                    } else {
+                        alert("删除失败")
+                    }
+                }, "json")
+            }
+        } else {
+            alert("请选择要删除的数据。")
+        }
+    }
+
+    //是否全选
+    function checkAll() {
+        $(".check_box").prop("checked", $("#all_check_box").prop("checked"));
+    }
+
+    function check() {
+        var childs = $(".check_box").length;
+        var checkedChilds = $(".check_box:checked").length;
+        if (childs == checkedChilds) {
+            $("#all_check_box").prop("checked", true);
+        } else {
+            $("#all_check_box").prop("checked", false);
+        }
+    }
+
+    //新增框弹出
+    $("#addBtn").click(function () {
+        $("#empAddModal form")[0].reset();
+        $("#empAddModal").modal({
+            backdrop: "static"
+        });
+    });
+
+    function showUpdatePage(id) {
+        $.getJSON("/repairman_findById", {"id": id}, function(result) {
+            $("#empUpdateModal form")[0].reset();
+            $("[name='photo']").val("");
+            $("[name='id']").val(result.data.id);
+            $("[name='no']").val(result.data.no);
+            $("[name='name']").val(result.data.name);
+            $("[name='password']").val(result.data.password);
+            $("[name='phone']").val(result.data.phone);
+            $("[name='sex']").each(function (index, element) {
+                if ($(element).val() == result.data.sex) {
+                    $(element).prop("checked", true);
+                } else {
+                    $(element).prop("checked", false);
+                }
+            });
+            //更新回显图片
+            $("#updateRepairmanImg").prop("src", "/images/photo/" + result.data.photo);
+            $("#empUpdateModal").modal({
+                backdrop: "static"
+            });
+        })
+    }
+
+
+    //图片上传
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+
+        //普通图片上传--异步上传
+        var uploadInst = upload.render({
+            elem: '#addPhotobtn'
+            , url: '/repairman_addphoto' //改成您自己的上传接口!!!!!!
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#addRepairmanImg').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                // alert(JSON.stringify(res));
+                //如果上传失败
+                if (res.code == 200) {
+                    $("#addRepairmanPhoto").val(res.data);
+                    return layer.msg('上传成功');
+                    //给表单中的一个隐藏标签赋值，隐藏上传成功的文件名,给隐藏域赋值
+                } else {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var addRepairmanText = $('#addRepairmanText');
+                addRepairmanText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                addRepairmanText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+        //更新
+        //普通图片上传--异步上传
+        var uploadInstUpdate = upload.render({
+            elem: '#updatePhotobtn'
+            , url: '/repairman_addphoto' //改成您自己的上传接口!!!!!!
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#updateRepairmanImg').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+               // alert(JSON.stringify(res));
+                //如果上传失败
+                if (res.code == 200) {
+                    $("#updateRepairmanPhoto").val(res.data);
+                    return layer.msg('上传成功');
+                    //给表单中的一个隐藏标签赋值，隐藏上传成功的文件名,给隐藏域赋值
+                } else {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var updateRepairmanText = $('#updateRepairmanText');
+                updateRepairmanText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                updateRepairmanText.find('.demo-reload').on('click', function () {
+                    uploadInstUpdate.upload();
+                });
+            }
+        });
+    });
+
+    function addRepairman() {
+        var datas = $("#addForm").serialize();
+       alert(datas);
+        $.post("/repairman_add", datas, function (result) {
+            //alert(JSON.stringify(result));
+            if (result.code == 200) {
+                alert("新增成功");
+                window.location.reload();
+            } else {
+                alert("新增失败");
+            }
+        }, "json");
+    }
+
+    function updateRepairman() {
+        var datas = $("#updateForm").serialize();
+        $.post("/repairman_update",datas,function (result) {
+            if (result.code==200){
+                alert("修改成功");
+                location.reload();
+            }else {
+                alert("修改失败");
+            }
+        },"json");
+    }
+    //
+
+    // logout
+    function adminLogout() {
+        if (confirm("确定要注销吗????")) {
+            $.getJSON("/admin_Logout", function (result) {
+                // alert(JSON.stringify(result));
+                if (result.code == 200) {
+                    // alert(111)
+                    alert("注销成功");
+                    location.href = "/admin/login.html";
+                } else {
+                    // alert(322)
+                    alert("操作失败");
+                }
+            });
+        }
+    }
+
+    //页面加载的时候，获取当前登录用户的信息
+    $(function () {
+
+        $.getJSON("/admin_getLoginUser", function (result) {
+            // alert(JSON.stringify(result));
+            $("#aname").text("欢迎您：" + result.data.aname);
+        });
+    });
+</script>
+</body>
+
+</html>

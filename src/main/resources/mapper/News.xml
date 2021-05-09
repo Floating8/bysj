@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.pzhu.bysj.dao.NewsDao">
+    <insert id="news_add">
+        insert into news values (null ,#{title},#{content},DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),DATE_FORMAT(now(),'%Y-%m-%d %H:%i:%s'),0,#{admin.id},0)
+    </insert>
+    <update id="add_hit">
+        update news set hit = hit +1 where id=#{id}
+    </update>
+    <update id="deleteNew">
+        update news set del = 1 where id = #{id}
+    </update>
+    <update id="deleteNews">
+        update news set del = 1 where id in
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateNews">
+        update news set title=#{title},content=#{content},updatetime=now() where id=#{id}
+    </update>
+    <select id="NewsFindById2" resultMap="NewsMap">
+        select news.* ,admin.username from news join admin on
+        news.createid = admin.id where news.id = #{id} and news.del = 0
+    </select>
+
+    <select id="totalCount" resultType="java.lang.Long">
+        select count(id) from news where del = 0
+    </select>
+    <select id="findNews" resultMap="NewsMap">
+         select news.id,news.title,news.content,news.createtime, news.updatetime,news.hit,news.createtime,admin.username
+         from news inner join admin on news.createid=admin.id
+         where news.del=0 order by createtime desc limit #{pageStart},#{pageSize}
+    </select>
+    <select id="NewsFindById" resultType="com.pzhu.bysj.pojo.News">
+        select news.* from news where id = #{id} and del = 0
+    </select>
+    <select id="findsLatestNews" resultMap="NewsMap">
+         select news.*,admin.username from news join admin on news.createid = admin.id
+         order by createtime desc limit 0,20
+    </select>
+
+    <resultMap id="NewsMap" type="News">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="createtime" column="createtime"/>
+        <result property="updatetime" column="updatetime"/>
+        <result property="hit" column="hit"/>
+        <result property="del" column="del"/>
+        <association property="admin" javaType="Admin">
+            <id property="id" column="createid"/>
+            <result property="username" column="username"/>
+        </association>
+    </resultMap>
+
+</mapper>

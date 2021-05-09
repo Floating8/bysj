@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- 富文本编辑器 -->
+    <link rel="stylesheet" href="../resources/kindeditor/themes/default/default.css"/>
+    <script charset="utf-8" src="../resources/kindeditor/kindeditor-min.js"></script>
+    <script charset="utf-8" src="../resources/kindeditor/lang/zh_CN.js"></script>
+    <script src="../resources/js/jquery-1.8.3.min.js"></script>
+</head>
+<body>
+<form>
+    <!-- 富文本编辑器 -->
+    <textarea name="introduction" style="width:1020px;height:400px;visibility:hidden;"></textarea>
+    <input type="button" value="新增" onclick="add();"/>
+</form>
+
+</body>
+</html>
+
+<!-- 正文区域  富文本编辑器的JS  插件  -->
+<script type="text/javascript">
+
+    var editor;
+    KindEditor.ready(function(K) {
+        editor = K.create('textarea[name="introduction"]', {
+            //指定上传文件参数名称等同于<input name="file">属性
+            filePostName  : "file",
+            //指定上传文件请求的url
+            uploadJson : '/uploadimg_kindeditor',  //上传后台地址
+            //上传类型，分别为image、flash、media、file
+            dir : "image",
+            //uploadJson : '../plugins/kindeditor/jsp/upload_json.jsp',
+            //fileManagerJson : '../plugins/kindeditor/jsp/file_manager_json.jsp',
+            allowFileManager : true
+        });
+    });
+
+    function add() {
+        $('textarea[name="introduction"]').html(editor.html());
+        var datas=$("form").serialize();
+        $.post("/news_addimage",datas,function (result) {
+            if(result.code==200){
+                alert(result.msg);
+                window.location.reload();
+            }else{
+                alert(result.msg);
+            }
+        });
+    }
+
+    $('textarea[name="introduction"]').html("546645366567<img src=\"/images/houses/799f7ada-5b0c-42bb-8e4b-915b289d43a9.jpg\" alt=\"\" />");
+
+</script>

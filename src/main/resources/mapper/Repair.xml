@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.pzhu.bysj.dao.RepairDao">
+
+    <insert id="addRepairInfo">
+        insert into repairinfo(repairNo,createTime,content,state,repaired_id,del)
+        values (#{repairNo},now(),#{content},0,${user.Stu_ID},0)
+    </insert>
+
+    <update id="updateRepairInfo">
+        update repairinfo set repairinfo.endTime = #{endTime},repairinfo.money = #{money},repairmanid = #{repairManId},state = '1' where repairinfo.id = #{id}
+    </update>
+
+    <delete id="deleteRepairInfos">
+        update repairinfo set del = 1 where id in
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteRepairInfo">
+        update repairinfo set  del = 1 where id = #{id}
+    </delete>
+
+    <select id="totalCount" resultType="java.lang.Long">
+         select count(*) from repairinfo where del=0
+    </select>
+
+    <select id="findRepairinfos" resultType="com.pzhu.bysj.pojo.Repair">
+         select repairinfo.*,repairman.`name`from
+        repairinfo INNER JOIN repairman on repairinfo.repairmanid=repairman.id and
+        repairinfo.del=0 order by repairinfo.id desc
+        limit #{pageStart},#{pageSize}
+    </select>
+    <select id="findAllRepairMan" resultType="com.pzhu.bysj.pojo.RepairMan">
+        select * from repairman where del = 0
+    </select>
+    <select id="repair_findById" resultType="com.pzhu.bysj.pojo.Repair">
+        select repairinfo.repairno,repairinfo.content from repairinfo where id = #{id} and del = 0
+    </select>
+
+    <select id="user_findRepairInfo" resultMap="RepairMap">
+        select repairinfo.*,repairman.name from repairinfo inner join repairman on repairinfo.repairmanid = repairman.id
+        where repairinfo.del = 0 and repairinfo.repairedid = #{repairedid}
+    </select>
+
+    <resultMap id="RepairMap" type="Repair">
+        <id column="id" property="id"/>
+        <result column="repairno" property="repairNo"/>
+        <result column="createTime" property="createTime"/>
+        <result column="endTime" property="endTime"/>
+        <result column="repairedid" property="repairedId"/>
+        <result column="state" property="state"/>
+        <result column="content" property="content"/>
+        <result column="money" property="money"/>
+        <association property="repairMan" javaType="RepairMan">
+            <id column="id" property="id"/>
+            <result column="name" property="name"/>
+            <result column="phone" property="phone"/>
+        </association>
+    </resultMap>
+
+<!--    <resultMap id="NewsMap" type="News">-->
+<!--        <id property="id" column="id"/>-->
+<!--        <result property="title" column="title"/>-->
+<!--        <result property="content" column="content"/>-->
+<!--        <result property="createtime" column="createtime"/>-->
+<!--        <result property="updatetime" column="updatetime"/>-->
+<!--        <result property="hit" column="hit"/>-->
+<!--        <result property="del" column="del"/>-->
+<!--        <association property="admin" javaType="Admin">-->
+<!--            <id property="id" column="createid"/>-->
+<!--            <result property="username" column="username"/>-->
+<!--        </association>-->
+<!--    </resultMap>-->
+</mapper>

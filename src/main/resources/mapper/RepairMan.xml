@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.pzhu.bysj.dao.RepairManDao">
+    <insert id="repairman_add">
+        insert into repairman(id,no,name,sex,password,photo,phone,del) values (
+        null ,#{no},#{name},#{sex},#{password},#{photo},#{phone},0
+        )
+    </insert>
+    <update id="repairman_update">
+        update repairman set name=#{name},sex= #{sex},password=#{password},
+        photo=#{photo},phone=#{phone} where id = #{id}
+    </update>
+    <update id="repairman_delete">
+        update repairman set del = 1 where id = #{id}
+    </update>
+    <update id="repairers_delete">
+        update repairman set del = 1 where id in
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="totalCount" resultType="java.lang.Long">
+        select count(id) from repairman where del = 0
+    </select>
+    <select id="findRepairMan" resultType="com.pzhu.bysj.pojo.RepairMan">
+        select repairman.* from repairman where repairman.del=0 order by repairman.id desc limit #{pageStart},#{pageSize}
+    </select>
+    <select id="repairman_findById" resultType="com.pzhu.bysj.pojo.RepairMan">
+        select repairman.* from repairman where id=#{id} and del = 0;
+    </select>
+</mapper>

@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en-US">
+<head>
+
+    <!-- META TAGS -->
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>宿舍管理系统</title>
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../resources/vendor/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="../resources/vendor/css/demo.css">
+
+
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+
+    <!-- Style Sheet-->
+    <link rel="stylesheet" href="../resources/app/css/style.css"/>
+
+    <link rel='stylesheet' id='pretty-photo-css-css'
+          href='../resources/app/js/prettyphoto/prettyPhotoaeb9.css?ver=3.1.4' type='text/css' media='all'/>
+    <link rel='stylesheet' id='main-css-css' href='../resources/app/css/main5152.css?ver=1.0' type='text/css'
+          media='all'/>
+    <link rel='stylesheet' id='custom-css-css' href='../resources/app/css/custom5152.html?ver=1.0' type='text/css'
+          media='all'/>
+    <link rel="stylesheet" href="../resources/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/vendor/linearicons/style.css">
+    <!--    <link rel='stylesheet' id='bootstrap-css-css' href='../resources/app/css/bootstrap5152.css?ver=1.0' type='text/css' media='all'/>-->
+    <link rel='stylesheet' id='responsive-css-css' href='../resources/app/css/responsive5152.css?ver=1.0'
+          type='text/css' media='all'/>
+    <link rel="stylesheet" href="../resources/app/css/layui.css">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+
+    <style>
+        #logo {
+            width: 75px;
+            height: 75px;
+        }
+
+        .modal-true {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 1050;
+            display: none;
+            overflow: hidden;
+            -webkit-overflow-scrolling: touch;
+            outline: 0;
+        }
+
+        .fade-true {
+            opacity: 0;
+            -webkit-transition: opacity .15s linear;
+            -o-transition: opacity .15s linear;
+            transition: opacity .15s linear;
+        }
+
+        #xia {
+            margin-top: -400px;
+            float: right;
+        }
+
+        #newsShow {
+            margin-top: -50px;
+        }
+
+        .dibu {
+            height: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+<!-- Start of Header -->
+<div class="header-wrapper">
+    <header>
+        <div class="container">
+
+
+            <div class="logo-container">
+                <!-- Website Logo -->
+                <a title="Base Theme">
+                    <img src="../resources/images/admin/pzh.jpg" alt="Amusing" id="logo">
+                </a>
+                <span class="tag-line">明德砺志，博学笃行</span>
+            </div>
+
+
+            <!-- Start of Main Navigation -->
+            <nav class="main-nav">
+                <div class="menu-top-menu-container">
+                    <ul id="menu-top-menu" class="clearfix">
+                        <li>
+
+                            <span style="color: white;" id="nowUser">欢迎您：admin</span>
+
+                        </li>
+                        <!--                        <li><a title="宿舍要遵守的规则"  >修改信息</a></li>-->
+                        <li class="list"><a title="发信息" href="../user/applyrepair.html">申请维修</a></li>
+                        <li><a title="个人信息" href="javascript:showUpdatePage();">个人信息</a></li>
+                        <li><a title="维修的查询" href="../user/myreplys.html">维修查询</a></li>
+                        <li><a title="欠费信息" href="/user/myqfees.html">欠费信息</a></li>
+                        <li><a href="javascript:Sleave();">我要请假</a></li>
+                        <li><a href="leaves.html">请假信息</a></li>
+                        <li><a href="javascript:userLogout();">注销</a></li>
+
+                    </ul>
+                </div>
+            </nav>
+            <!-- End of Main Navigation -->
+
+        </div>
+    </header>
+</div>
+
+<div class="layui-carousel" id="test4">
+    <div carousel-item>
+        <div><img src="../resources/app/images/loop/xq4.jpg"></div>
+        <div><img src="../resources/app/images/loop/xq2.jpeg"></div>
+        <div><img src="../resources/app/images/loop/pzh1.jpg"></div>
+    </div>
+</div>
+
+
+<!-- Start of Page Container -->
+<div class="page-container">
+    <div class="container">
+        <div class="row">
+            <!-- start of page content -->
+            <div class="span8 page-content">
+                <!-- Basic Home Page Template -->
+                <div class="row separator" id="newsShow">
+                    <!-- 模板内容 -->
+                    <textarea id="template" style="display:none">
+                    <section class="span4 articles-list">
+                        <h3>小区公告</h3>
+                        <ul class="articles">
+                             {#foreach $T as record}
+                                <li class="article-entry standard">
+                                    <h4><a href="/user/news.html?id={$T.record.id}">{$T.record.title}</a></h4>
+                                    <span class="article-meta">{$T.record.createtime}
+                                        <a href="#"
+                                           title="View all posts in Server &amp; Database"> 管理员：{$T.record.admin.username}
+                                        </a>
+                                    </span>
+                                    <span class="like-count" onclick="addHit({$T.record.id});"
+                                          id="hit">{$T.record.hit}</span>
+                                </li>
+                               {#/for}
+                        </ul>
+                    </section>
+                    </textarea>
+                    <!-- 输出元素 -->
+                    <div id="result1"></div>
+                    <!-- end of page content -->
+                </div>
+            </div>
+        </div>
+        <!-- start of sidebar -->
+
+        <!-- end of sidebar -->
+    </div>
+</div>
+<!-- 员工新增模态框 -->
+<div class="modal fade" id="empAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="width: 830px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">新增</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal layui-form layui-form-pane1" lay-filter="first" id="addForm">
+                    <div class="form-group">
+                        <label for="head_add_input" class="col-sm-2 control-label">请假原因</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="lreason" class="form-control" id="head_add_input">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="time_add_input" class="col-sm-2 control-label">请假时间</label>
+                        <div class="col-sm-10">
+                            <input type="date" name="ltime" class="form-control" id="time_add_input">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="day_add_input" class="col-sm-2 control-label">请假天数</label>
+                        <div class="col-sm-10">
+                            <input type="text" name="duration" class="form-control" id="day_add_input">
+                            <span class="help-block"></span>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" onclick="addLeave();" class="btn btn-primary" id="mysub">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div id="xia">
+    <aside class="span4 page-sidebar">
+        <section class="widget">
+            <div class="support-widget">
+                <h3 class="title">帮助</h3>
+                <p class="intro">您需要更多帮助，请联系管理员</p>
+            </div>
+        </section>
+
+
+        <section class="widget">
+            <div class="quick-links-widget">
+                <h3 class="title">快速链接</h3>
+                <ul id="menu-quick-links" class="menu clearfix">
+                    <li><a href="index-2.html">主页</a></li>
+                    <li><a href="articles-list.html">小区之声</a></li>
+                    <li><a href="faq.html">小区论坛规则</a></li>
+                    <li><a href="contact.html">联系管理员</a></li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="widget">
+            <h3 class="title">Tags</h3>
+            <div class="tagcloud">
+                <a href="#" class="btn btn-mini">basic</a>
+                <a href="#" class="btn btn-mini">beginner</a>
+                <a href="#" class="btn btn-mini">blogging</a>
+                <a href="#" class="btn btn-mini">colour</a>
+                <a href="#" class="btn btn-mini">css</a>
+                <a href="#" class="btn btn-mini">date</a>
+                <a href="#" class="btn btn-mini">design</a>
+                <a href="#" class="btn btn-mini">files</a>
+                <a href="#" class="btn btn-mini">format</a>
+                <a href="#" class="btn btn-mini">header</a>
+                <a href="#" class="btn btn-mini">images</a>
+                <a href="#" class="btn btn-mini">plugins</a>
+                <a href="#" class="btn btn-mini">setting</a>
+                <a href="#" class="btn btn-mini">templates</a>
+                <a href="#" class="btn btn-mini">theme</a>
+                <a href="#" class="btn btn-mini">time</a>
+                <a href="#" class="btn btn-mini">videos</a>
+                <a href="#" class="btn btn-mini">website</a>
+                <a href="#" class="btn btn-mini">wordpress</a>
+            </div>
+        </section>
+
+    </aside>
+</div>
+
+<!-- End of Page Container -->
+
+<!-- Start of Footer -->
+<footer id="footer-wrapper" class="dibu">
+
+
+    <!-- Footer Bottom -->
+    <div id="footer-bottom-wrapper">
+
+    </div>
+    <!-- End of Footer Bottom -->
+
+</footer>
+<!-- End of Footer -->
+
+<div class="main">
+    <!-- 员工修改模态框 -->
+    <div class="modal-true fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">查看</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal" id="updateForm">
+                        <div class="form-group">
+                            <label for="id_update_input" class="col-sm-2 control-label">学生学号</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="Stu_ID" id="id_update_input" class="form-control" readonly>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_update_input" class="col-sm-2 control-label">学生姓名</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="name" class="form-control" id="name_update_input"
+                                       placeholder="请输入学生姓名" readonly>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_update_input" class="col-sm-2 control-label">登录账号</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="account" class="form-control" id="account_update_input"
+                                       placeholder="请输入登录账号" readonly>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name_update_input" class="col-sm-2 control-label">登录密码</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="password" class="form-control" id="password_update_input"
+                                       placeholder="请输入登录密码">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="nation_update_input" class="col-sm-2 control-label">民族</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="nation" class="form-control" id="nation_update_input"
+                                       placeholder="请输入民族" readonly>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="date_update_input" class="col-sm-2 control-label">出生日期</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="birth" class="form-control" id="date_update_input"
+                                       placeholder="请输入出生日期" readonly>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="sex_update_input" class="col-sm-2 control-label">性别</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="sex" class="form-control" id="sex_update_input"
+                                       placeholder="请输入性别">
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="dorm_update_input" class="col-sm-2 control-label">所在宿舍</label>
+                            <div class="col-sm-10">
+                                <input type="text" name="dorm" class="form-control" id="dorm_update_input"
+                                       placeholder="请输入所在宿舍" readonly>
+                                <span class="help-block"></span>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <font>若有关键信息错误，请联系管理员。</font>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" onclick="updateStuInfo();" class="btn btn-primary">更新</button>
+                    <!--                    <button type="button" onclick="updateFloor();" class="btn btn-primary" id="update_save_button">-->
+                    <!--                        更新-->
+                    <!--                    </button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<a href="#top" id="scroll-top"></a>
+
+<!-- script -->
+
+<script src="../resources/js/jquery-3.2.1.js"></script>
+<script src="../resources/js/bootstrap.min.js"></script>
+<script src="../resources/js/jquery.jtemplates.js"></script>
+<script type='text/javascript' src='../resources/app/js/jquery.easing.1.3.js'></script>
+<script type='text/javascript' src='../resources/app/js/prettyphoto/jquery.prettyPhoto.js'></script>
+<script type='text/javascript' src='../resources/app/js/jflickrfeed.js'></script>
+<script type='text/javascript' src='../resources/app/js/jquery.liveSearch.js'></script>
+<script type='text/javascript' src='../resources/app/js/jquery.form.js'></script>
+<script type='text/javascript' src='../resources/app/js/jquery.validate.min.js'></script>
+<script type='text/javascript' src='../resources/app/js/custom.js'></script>
+<script src="../resources/app/js/layui.js"></script>
+
+<script>
+    layui.use('carousel', function () {
+        var carousel = layui.carousel;
+        carousel.render({
+            elem: '#test4'
+            , arrow: 'none'
+            , trigger: 'hover'
+            , anim: 'updown'
+            , width: '100%'
+            , height: '543px'
+            , interval: 2700
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    let id;
+
+    $(function () {
+        //页面加载的时候，获取当前登录用户的信息
+        $.getJSON("/user_getLoginUser", function (result) {
+            // alert(JSON.stringify(result));
+            $("#nowUser").text("欢迎您：" + result.data.name);
+            id = result.data.id;
+        });
+
+
+        $.getJSON("/index_findsLatestNews", function (result) {
+            //alert(JSON.stringify(result));
+            // 附上模板
+            $("#result1").setTemplateElement("template");
+            // 给模板加载数据
+            $("#result1").processTemplate(result);
+        });
+
+    });
+
+    function updateInfo() {
+        // 先清空表单信息,调用dom对象的重置方法
+        $("#empUpdateModal form")[0].reset();
+        // 发送ajax请求获得部门信息
+        /* getDeptMessage("#empAddModal select"); */
+        // 弹出模态对话框
+        $("#empUpdateModal").modal({
+            backdrop: "static"
+        });
+    }
+
+    //更新显示页面
+    function showUpdatePage() {
+        // alert(111)
+        // alert(id);
+        $("#empUpdateModal form")[0].reset();
+
+        //显示更新表单
+        $("#empUpdateModal").modal({
+            backdrop: "static"
+        });
+        f(id);
+    }
+
+    // 请假
+    function Sleave() {
+        //点击新增按钮，弹出模态框
+        // 先清空表单信息,调用dom对象的重置方法
+        $("#empAddModal form")[0].reset();
+        $("#empAddModal").modal({
+            backdrop: "static"
+        });
+    }
+
+    function f(id) {
+        $.getJSON("/user_info", {"id": id}, function (result) {
+            // alert(JSON.stringify(result));
+            $("[name='Stu_ID']").val(result.data.user.stu_ID);
+            $("[name='nation']").val(result.data.user.nation);
+            $("[name='name']").val(result.data.user.name);
+            $("[name='birth']").val(result.data.user.birth);
+            $("[name='sex']").val(result.data.user.sex);
+            $("[name='account']").val(result.data.user.username);
+            $("[name='password']").val(result.data.user.password);
+            $("[name='dorm']").val(result.data.qinshi);
+            // $("[name='qftime']").val(result.qftime);
+
+        });
+    }
+
+    //用户注销
+    function userLogout() {
+        if (confirm("确定要注销吗????")) {
+            $.getJSON("/user_Logout", function (result) {
+                // alert(JSON.stringify(result));
+                if (result.code == 200) {
+                    // alert(111)
+                    alert("注销成功");
+                    location.href = "/user/login.html";
+                } else {
+                    // alert(322)
+                    alert(result.msg);
+                }
+            });
+        }
+    }
+
+    //点赞
+    function addHit(id) {
+        $.post("/add_hit", {"id": id}, function (result) {
+            if (result.code == 200) {
+                //alert("1111");
+                $.getJSON("/index_findsLatestNews", function (result) {
+                    //alert(JSON.stringify(result));
+                    // 附上模板
+                    $("#result1").setTemplateElement("template");
+                    // 给模板加载数据
+                    $("#result1").processTemplate(result);
+                });
+            } else {
+                alert("点赞失败");
+            }
+        })
+    }
+
+    function updateStuInfo() {
+        var datas = $('#updateForm').serialize();
+        alert(datas);
+        $.post("/user_updateStuInfo",datas,function (result) {
+            if (result.code==200){
+                alert("修改成功");
+                window.location.reload();
+            }else {
+                alert("修改失败，请稍后再试");
+            }
+        })
+    }
+
+
+    function addLeave() {
+        var datas = $("#addForm").serialize();
+        $.post("/add_leave", datas, function (result) {
+            if (result.code == 200) {
+                alert("提交成功");
+                window.location.reload();
+            } else {
+                alert("提交失败");
+            }
+        }, "json");
+    }
+</script>
+</body>
+</html>

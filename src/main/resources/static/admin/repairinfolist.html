@@ -1,0 +1,444 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>申请维修信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script src="../resources/js/jquery.jtemplates.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="../resources/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/vendor/linearicons/style.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../resources/vendor/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="../resources/vendor/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+    <link rel="stylesheet" href="../resources/app/css/layui.css">
+</head>
+<style>
+    .ff{
+        font: 14px arial,sans-serif;
+    }
+    .main{
+        background: url("../resources/images/admin/1.jpg");
+    }
+</style>
+
+<body background="../resources/images/admin/1.jpg">
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div style="padding:0px 10px;" class="brand">
+            <a href="../"><img src="../resources/images/admin/logo1.jpg" alt="Amusing Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/logo.png" id="myhead" height="22px" class="img-circle" alt="Avatar">
+                            <span id="aname">admin</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+
+                            <li>
+                                <a href="javascript:adminLogout();"><i class="lnr lnr-exit"></i> <span>注销</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li>
+                        <a href="index.html" class=""><i class="lnr lnr-home"></i> <span class="ff">后台桌面</span></a>
+                    </li>
+                    <li>
+                        <a href="userlist.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="pieUser.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生信息统计</span></a>
+                    </li>
+                    <li>
+                        <a href="leave.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生请假统计</span></a>
+                    </li>
+                    <li>
+                        <a href="backlate.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">学生晚归统计</span></a>
+                    </li>
+                    <li>
+                        <a href="repairinfolist.html" class="active"><i class="lnr lnr-pencil"></i><span class="ff">申请维修信息</span></a>
+                    </li>
+                    <li>
+                        <a href="newslist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍公告信息</span></a>
+                    </li>
+                    <li>
+                        <a href="dormlist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="stafflist.html" class=""><i class="lnr lnr-users"></i> <span class="ff">维修员工信息</span></a>
+                    </li>
+                    <li>
+                        <a href="payinfolist.html" class=""><i class="lnr lnr-bookmark"></i> <span class="ff">缴欠费信息单</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- 员工修改模态框 -->
+        <div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="handleRepairForm">
+                            <div class="form-group">
+                                <label for="repairtime" class="col-sm-2 control-label">上门时间</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="id"/>
+                                    <input type="date" name="endTime" class="form-control" id="repairtime"
+                                           placeholder="请输入上门时间">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="money" class="col-sm-2 control-label">预估金额</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="money" class="form-control" id="money"
+                                           placeholder="请输入预估金额">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">受理师傅</label>
+                                <div class="col-sm-10">
+                                    <select name="repairManId">
+                                        <!--<option>李师傅</option>-->
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" onclick="handleRepair();" class="btn btn-primary" id="update_save_button">
+                            受理
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">申请维修信息</h3>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-8" style="text-align: right;">
+                        <button class="btn-danger" id="batchDeleteBtn" onclick="repairs_delete();">批量删除</button>
+                    </div>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 模板内容 -->
+                        <textarea id="template" style="display:none">
+            <table class="table table-hover table-striped table-bordered" id="emps_table">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" id="all_check_box" onclick="checkAll();"/></th>
+                        <th>id</th>
+                        <th>维修单编号</th>
+	                    <th>维修申请时间</th>
+	                    <th>维修内容</th>
+	                    <th>维修状态</th>
+				        <th>业主姓名</th>          
+	                    <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+				 {#foreach $T.datas as record}
+                    <tr>
+						<td><input type="checkbox" class="check_box" value="{$T.record.id}" onclick="check();"></td>
+						<td>{$T.record.id}</td>
+						<td>{$T.record.repairNo}</td>
+						<td>{$T.record.createTime}</td>
+						<td><a href="#" onclick="window.open('/admin/repairdetail.html?id={$T.record.id}','维修详情','height=700, width=500, top=100, left=500')";>查看详情</a></td>
+						<td>
+							{#if $T.record.state==0}
+							    <span class="label label-warning">未受理</span>
+							{#else}
+								 <span class="label label-success">已受理</span>
+							{#/if}
+						</td>
+						<td>{$T.record.user.name}</td>
+						<td>
+							{#if $T.record.state==0}
+							   <button class="btn-primary btn-xs" onclick="do_repair({$T.record.id});"><span
+                                       class="glyphicon glyphicon-pencil"></span>受理维修</button>
+							{#/if}
+							<button class="btn-danger btn-xs" onclick="repair_delete({$T.record.id});"><span
+                                    class="glyphicon glyphicon-trash"></span>删除</button></td>
+					   </tr>
+                  {#/for}
+				</tbody>
+            </table>
+			</textarea>
+                        <!-- 输出元素 -->
+                        <div id="result1"></div>
+                        <!-- 模板内容 -->
+                        <textarea id="templateNumbers" style="display:none">
+									<ul class="pagination" style="float: right;">
+										<li>
+											<a href="javascript:loadData(1,8);">首页</a>
+										</li>
+
+										{#if $T.pageIndex==1}
+											<li class="disabled">
+												<a href="#">«</a>
+											</li>
+										{#else}
+											<li>
+												<a href="javascript:loadData({$T.pageIndex-1},8);">«</a>
+											</li>
+										{#/if}
+
+										{#foreach $T.numbers as record}
+											<li lang="nums">
+												<a href="javascript:loadData({$T.record},8);">{$T.record}</a>
+											</li>
+										{#/for}
+
+
+										{#if $T.pageIndex==$T.pageCount}
+											<li class="disabled">
+												<a href="#">»</a>
+											</li>
+										{#else}
+											<li>
+											  <a href="javascript:loadData({$T.pageIndex+1},8);">»</a>
+											</li>
+										{#/if}
+
+										<li>
+											<a href="javascript:loadData({$T.pageCount},8);">末页</a>
+										</li>
+
+										<li>
+											<a>共{$T.pageCount}页</a>
+										</li>
+										<li>
+											<a>共{$T.totalCount}条</a>
+										</li>
+									</ul>
+								  </textarea>
+
+                        <!-- 输出元素 -->
+                        <div id="resultNUmbers"></div>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+                <div style="position: fixed;top:500px;left:300px;font-size: 15px;" class="col-md-6" id="page_inf">
+
+                </div>
+                <div style="position: fixed;top:470px;left:800px;font-size: 15px;" class="col-md-6">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" id="navUl">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- END MAIN CONTENT -->
+    </div>
+
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+
+    <footer>
+
+        <div class="container-fluid">
+        </div>
+    </footer>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+<script src="../resources/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../resources/vendor/klorofil-common.js"></script>
+<script>
+    $(function () {
+        //页面加载的时候，获取当前登录用户的信息
+        $.getJSON("/admin_getLoginUser", function (result) {
+            // alert(JSON.stringify(result));
+            $("#aname").text("欢迎您：" + result.data.aname);
+        });
+    });
+
+
+    $(function () {
+        loadData(1, 8);
+    });
+
+    //首页加载数据
+    function loadData(pageIndex, pageSize) {
+        var datas = {"pageIndex": pageIndex, "pageSize": pageSize};
+        $.getJSON("/repair_list", datas, function (data) {
+            // alert(JSON.stringify(data));
+            // 附上模板
+            $("#result1").setTemplateElement("template");
+            // 给模板加载数据
+            $("#result1").processTemplate(data);
+            // 附上模板
+            $("#resultNUmbers").setTemplateElement("templateNumbers");
+            // 给模板加载数据
+            $("#resultNUmbers").processTemplate(data);
+
+            //前端当前页码显示底色
+            $("[lang='nums']").each(function (index, element) {
+                var t = $(element).find("a").text();
+                if (t == data.pageIndex) {
+                    $(element).addClass("active");
+                }
+            });
+        });
+    }
+
+
+    function repair_delete(id) {
+        if (confirm("是否删除？")) {
+            $.post("/repair_delete", {"id": id}, function (result) {
+                if (result.code == 200) {
+                    alert("删除成功");
+                    location.reload();
+                } else {
+                    alert("删除失败");
+                }
+            })
+        }
+    }
+
+    function repairs_delete() {
+        var ids = new Array();
+        var childs = $(".check_box:checked");
+        if (childs.length > 0) {
+            if (confirm("确定要删除吗？")) {
+                for (let i = 0; i < childs.length; i++) {
+                    var id = childs[i].value;
+                    ids.push(id);
+                }
+                $.post("/repairs_delete", {"ids": ids.toString()}, function (result) {
+                    if (result.code == 200) {
+                        alert("删除成功");
+                        location.reload();
+                    } else {
+                        alert("删除失败")
+                    }
+                }, "json")
+            }
+        } else {
+            alert("请选择要删除的数据。")
+        }
+    }
+
+
+    //是否全选
+    function checkAll() {
+        $(".check_box").prop("checked", $("#all_check_box").prop("checked"));
+    }
+
+    function check() {
+        var childs = $(".check_box").length;
+        var checkedChilds = $(".check_box:checked").length;
+        if (childs == checkedChilds) {
+            $("#all_check_box").prop("checked", true);
+        } else {
+            $("#all_check_box").prop("checked", false);
+        }
+    }
+
+
+    function do_repair(id) {
+        // 先清空表单信息,调用dom对象的重置方法
+        $("#empUpdateModal form")[0].reset();
+
+        $("[name='id']").val(id);
+        //绑定受理人下拉框
+        $.getJSON("/repairman_findall", function (result) {
+            // alert(result.data)
+            for (var i = 0; i < result.data.length; i++) {
+                $("[name='repairManId']").append("<option value='" + result.data[i].id + "'>" + result.data[i].name + "</option>");
+            }
+        });
+        $("#empUpdateModal").modal({
+            backdrop: "static"
+        });
+    }
+
+	function handleRepair() {
+		var datas=$("#handleRepairForm").serialize();
+		alert(JSON.stringify(datas));
+		$.post("/Repair_update",datas,function (result) {
+			if(result.code==200){
+				alert("操作成功");
+				window.location.reload();
+			}else{
+				alert("操作失败");
+			}
+		});
+	}
+
+    // logout
+    function adminLogout() {
+        if (confirm("确定要注销吗????")) {
+            $.getJSON("/admin_Logout", function (result) {
+                // alert(JSON.stringify(result));
+                if (result.code == 200) {
+                    // alert(111)
+                    alert("注销成功");
+                    location.href = "/admin/login.html";
+                } else {
+                    // alert(322)
+                    alert("操作失败");
+                }
+            });
+        }
+    }
+</script>
+</body>
+
+</html>

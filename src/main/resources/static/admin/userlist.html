@@ -1,0 +1,838 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>学生信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script src="../resources/js/jquery.jtemplates.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="../resources/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/vendor/linearicons/style.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../resources/vendor/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="../resources/vendor/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+    <!--引入LayUI样式-->
+    <link rel="stylesheet" href="../resources/layui/css/layui.css">
+    <!--引入LayUI的JS-->
+    <script src="../resources/layui/layui.js"></script>
+</head>
+<style>
+    .ff{
+        font: 14px arial,sans-serif;
+    }
+    .main{
+        background: url("../resources/images/admin/1.jpg");
+    }
+</style>
+
+<body background="../resources/images/admin/1.jpg">
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div style="padding:0px 10px;" class="brand">
+            <a href="../"><img src="../resources/images/admin/logo1.jpg" alt="Amusing Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/logo.png" id="myhead" height="22px" class="img-circle" alt="Avatar">
+                            <span id="aname">admin</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:adminLogout();"><i class="lnr lnr-exit"></i> <span>注销</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li>
+                        <a href="index.html" class=""><i class="lnr lnr-home"></i> <span class="ff">后台桌面</span></a>
+                    </li>
+                    <li>
+                        <a href="userlist.html" class="active"><i class="lnr lnr-user"></i> <span class="ff">学生相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="pieUser.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生信息统计</span></a>
+                    </li>
+                    <li>
+                        <a href="leave.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生请假统计</span></a>
+                    </li>
+                    <li>
+                        <a href="backlate.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">学生晚归统计</span></a>
+                    </li>
+                    <li>
+                        <a href="repairinfolist.html" class=""><i class="lnr lnr-pencil"></i><span class="ff">申请维修信息</span></a>
+                    </li>
+                    <li>
+                        <a href="newslist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍公告信息</span></a>
+                    </li>
+                    <li>
+                        <a href="dormlist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="stafflist.html" class=""><i class="lnr lnr-users"></i> <span class="ff">维修员工信息</span></a>
+                    </li>
+                    <li>
+                        <a href="payinfolist.html" class=""><i class="lnr lnr-bookmark"></i> <span class="ff">缴欠费信息单</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- 员工修改模态框 -->
+        <div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="updateForm">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">学号</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="id"/>
+                                    <input type="text" name="stu_ID" class="form-control" readonly
+                                           placeholder="请输入学生编号">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" class="form-control" placeholder="请输入学生姓名">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="password" class="form-control">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">性别</label>
+                                <div class="col-sm-10">
+                                    <input type="radio" name="sex" value="男" checked>男
+                                    <input type="radio" name="sex" value="女">女
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="tel_add_input" class="col-sm-2 control-label">出生年月</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="birth" class="form-control" placeholder="请输入学生出生年月">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="tel_add_input" class="col-sm-2 control-label">房间号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="dname" class="form-control" placeholder="请输入房间号">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="rz_add_input" class="col-sm-2 control-label">所属楼房</label>
+                                <div class="col-sm-10">
+                                    <select name="own1" id="updateFloorSelect">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">照片</label>
+                                <div class="col-sm-10">
+                                    <button type="button" class="layui-btn" id="updatehouseMapbtn">上传图片</button>
+                                    <!--隐藏域 上传成功值周图片的名字-->
+                                    <input type="hidden" name="image" id="updatehousemap"/>
+                                    <div class="layui-upload-list">
+                                        <!--回显的图片-->
+                                        <img class="layui-upload-img" id="updateHouseMapImg" width="200px">
+                                        <p id="updateHouseMapImgText"></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" onclick="updateUser();" class="btn btn-primary" id="update_save_button">
+                            更新
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Excel-->
+        <div class="modal fade" id="importExcelModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <form class="form-horizontal" id="#" action="/user_importExcel" enctype="multipart/form-data" method="post">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel1">批量新增</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="form-group">
+                                <label for="addFloorSelect" class="col-sm-2 control-label">所属楼房</label>
+                                <div class="col-sm-10">
+                                    <select name="DormId" id="ExcelFloorSelect">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name_add_input" class="col-sm-2 control-label">学生数据</label>
+                                <div class="col-sm-10">
+                                    <input type="file" name="file" class="form-control">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="submit" class="btn btn-primary">导入</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <!-- 学生新增模态框 -->
+        <div class="modal fade" id="empAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">新增</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="addForm">
+                            <div class="form-group">
+                                <label for="name_add_input" class="col-sm-2 control-label">学生学号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="Stu_ID" class="form-control" id="name_add_input"
+                                           placeholder="请输入学生学号">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address_add_input" class="col-sm-2 control-label">姓名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="name" class="form-control" id="address_add_input"
+                                           placeholder="请输入姓名">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="username_add_input" class="col-sm-2 control-label">用户名</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="username" class="form-control" id="username_add_input"
+                                           placeholder="请输入用户名">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="area_add_input" class="col-sm-2 control-label">密码</label>
+                                <div class="col-sm-10">
+                                    <input type="password" name="password" class="form-control" id="area_add_input"
+                                           value="88888888">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="nation_add_input" class="col-sm-2 control-label">民族</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="nation" class="form-control" id="nation_add_input"
+                                           value="汉">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="birth_add_input" class="col-sm-2 control-label">出生年月</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="birth" class="form-control" id="birth_add_input"
+                                           >
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">性别</label>
+                                <div class="col-sm-10">
+                                    <input type="radio" name="sex" value="男" checked>男
+                                    <input type="radio" name="sex" value="女">女
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="site_add_input" class="col-sm-2 control-label">宿舍号</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="dname" class="form-control" id="site_add_input"
+                                           placeholder="请输入学生具体楼层房间号">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">照片</label>
+                                <div class="col-sm-10">
+                                    <button type="button" class="layui-btn" id="addhouseMapbtn">上传图片</button>
+                                    <input type="hidden" name="image" id="addhousemap"/>
+                                    <div class="layui-upload-list">
+                                        <img class="layui-upload-img" id="addHouseMapImg" width="200px">
+                                        <p id="addHouseMapImgText"></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="addFloorSelect" class="col-sm-2 control-label">所属楼号</label>
+                                <div class="col-sm-10">
+                                    <select name="own" id="addFloorSelect">
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" onclick="addUser();" class="btn btn-primary" id="add_save_button">保存
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">用户列表</h3>
+
+
+                <div class="row">
+                        <select id="exportExcelSelect">
+                            <option value="-1">------全部学生-----</option>
+                        </select>
+                        <button class="btn-primary" onclick="findUsers();">查询</button>
+                        <button class="btn-primary" onclick="exportExcel();">导出Excel</button>
+                        <button class="btn-primary" id="addBtn">新增</button>
+                        <button class="btn-danger" id="batchImportExcel">批量导入</button>
+                        <button class="btn-danger" id="batchDeleteBtn" onclick="deleteUsers();">批量删除</button>
+                        <input type="text" id="inputText">
+                        <button class="btn-primary" onclick="findStu();">搜索</button>
+                </div>
+                <br/>
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 模板内容 -->
+                        <textarea id="template" style="display:none">
+                <table class="table table-hover table-striped table-bordered" id="emps_table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="all_check_box" onclick="checkAll();"/></th>
+                                        <th>id</th>
+                                        <th>学生学号</th>
+                                        <th>姓名</th>
+                                        <th>密码</th>
+                                        <th>性别</th>
+                                        <th>出生年月</th>
+                                        <th>房间号</th>
+                                        <th>所属楼房</th>
+                                        <th>照片</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                     {#foreach $T.datas as record}
+                       <tr>
+                           <td><input type="checkbox" class="check_box" value="{$T.record.id}" onclick="check();"></td>
+                           <td>{$T.record.id}</td>
+                           <td>{$T.record.stu_ID}</td>
+                           <td>{$T.record.name}</td>
+                           <td>{$T.record.password}</td>
+                           <td>{$T.record.sex}</td>
+                           <td>{$T.record.birth}</td>
+                           <td>{$T.record.dorm.dname}</td>
+                           <td>{$T.record.dorm.own}</td>
+                           <td><a href="#"
+                                  onclick="window.open('/admin/userimage.html?userimage={$T.record.image}','户型图','height=700, width=500, top=100, left=500');">
+                               查看</a></td>
+                           <td>
+                               <button class="btn-primary btn-xs" onclick="showUpdatePage({$T.record.id});"><span
+                                       class="glyphicon glyphicon-pencil"></span>编辑</button>
+                               <button class="btn-danger btn-xs" onclick="delete_user({$T.record.id});"><span
+                                       class="glyphicon glyphicon-trash">
+                               </span>删除</button>
+                           </td>
+                       </tr>
+                    {#/for}
+                    </tbody>
+                </table>
+            </textarea>
+                        <!-- 输出元素 -->
+                        <div id="result1"></div>
+
+                        <!-- 模板内容 -->
+                        <textarea id="templateNumbers" style="display:none">
+									<ul class="pagination" style="float: right;">
+										<li>
+											<a href="javascript:loadData(1,8);">首页</a>
+										</li>
+
+										{#if $T.pageIndex==1}
+											<li class="disabled">
+												<a href="#">«</a>
+											</li>
+										{#else}
+											<li>
+												<a href="javascript:loadData({$T.pageIndex-1},8);">«</a>
+											</li>
+										{#/if}
+
+										{#foreach $T.numbers as record}
+											<li lang="nums">
+												<a href="javascript:loadData({$T.record},8);">{$T.record}</a>
+											</li>
+										{#/for}
+
+
+										{#if $T.pageIndex==$T.pageCount}
+											<li class="disabled">
+												<a href="#">»</a>
+											</li>
+										{#else}
+											<li>
+											  <a href="javascript:loadData({$T.pageIndex+1},8);">»</a>
+											</li>
+										{#/if}
+
+										<li>
+											<a href="javascript:loadData({$T.pageCount},8);">末页</a>
+										</li>
+
+										<li>
+											<a>共{$T.pageCount}页</a>
+										</li>
+										<li>
+											<a>共{$T.totalCount}条</a>
+										</li>
+									</ul>
+								  </textarea>
+
+                        <!-- 输出元素 -->
+                        <div id="resultNUmbers"></div>
+
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- <div class="row">
+            <div style="position: fixed;top:500px;left:300px;font-size: 15px;" id="page_info_area">
+            </div>
+            <div style="position: fixed;top:470px;left:800px;font-size: 15px;" id="page_nav_area">
+            </div>
+            </div> -->
+
+            <div class="row">
+                <div style="position: fixed;top:500px;left:300px;font-size: 15px;" class="col-md-6" id="page_inf">
+
+                </div>
+                <div style="position: fixed;top:470px;left:800px;font-size: 15px;" class="col-md-6">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination" id="navUl">
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <!-- END MAIN CONTENT -->
+    </div>
+
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+
+    <footer>
+
+        <div class="container-fluid">
+        </div>
+    </footer>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+<script src="../resources/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../resources/vendor/klorofil-common.js"></script>
+<script>
+    $(function () {
+        //页面加载的时候，获取当前登录用户的信息
+        $.getJSON("/admin_getLoginUser", function (result) {
+            // alert(JSON.stringify(result));
+            $("#aname").text("欢迎您：" + result.data.aname);
+        });
+    });
+
+    //弹出新增框
+    $("#addBtn").click(function () {
+        // 先清空表单信息,调用dom对象的重置方法
+        $("#empAddModal form")[0].reset();
+        $("#empAddModal").modal({
+            backdrop: "static"
+        });
+    });
+
+    //弹出修改框
+
+
+    //-----------------------------------------------页面打开，自动加载分页数据------------------------------------------
+    $(function () {
+        loadData(1, 8);
+        //绑定所属楼房
+        $.getJSON("/floor_finds", function (result) {
+            //alert(JSON.stringify(result));
+            for (var i = 0; i < result.data.length; i++) {
+                //新增的模态下拉框绑定
+                // $("#addFloorSelect").append("<option value='" + result[i].id + "'>" + result[i].username + "</option>");
+                $("#addFloorSelect").append("<option value='" + result.data[i].buildid + "'>" + result.data[i].own + " </option>")
+                $("#updateFloorSelect").append("<option value='" + result.data[i].buildid + "'>" + result.data[i].own + " </option>")
+                $("#exportExcelSelect").append("<option value='" + result.data[i].buildid + "'>" + result.data[i].own + " </option>")
+                $("#ExcelFloorSelect").append("<option value='" + result.data[i].buildid + "'>" + result.data[i].own + " </option>")
+            }
+        });
+    });
+
+    //首页加载数据
+    function loadData(pageIndex, pageSize) {
+        var datas = {"pageIndex": pageIndex, "pageSize": pageSize}
+        $.getJSON("/user_list", datas, function (data) {
+            // alert(JSON.stringify(data));
+            // 附上模板
+            $("#result1").setTemplateElement("template");
+            // 给模板加载数据
+            $("#result1").processTemplate(data);
+            // 附上模板
+            $("#resultNUmbers").setTemplateElement("templateNumbers");
+            // 给模板加载数据
+            $("#resultNUmbers").processTemplate(data);
+
+            //前端当前页码显示底色
+            $("[lang='nums']").each(function (index, element) {
+                var t = $(element).find("a").text();
+                if (t == data.pageIndex) {
+                    $(element).addClass("active");
+                }
+            });
+        });
+    }
+
+    //删除数据
+    function delete_user(id) {
+        if (confirm("确定删除该条数据吗？")) {
+            $.post("/delete_user", {"id": id}, function (result) {
+                if (result.code == 200) {
+                    alert("删除成功");
+                    location.reload();
+                } else {
+                    alert("删除失败")
+                }
+            })
+        }
+    }
+
+    //批量删除
+    function deleteUsers() {
+        var ids = new Array();
+        var childs = $(".check_box:checked");
+        if (childs.length > 0) {
+            if (confirm("确定要删除吗?")) {
+                for (let i = 0; i < childs.length; i++) {
+                    var id = childs[i].value;
+                    ids.push(id);
+                }
+                /// alert(ids.toString())
+                $.post("/deleteUsers", {"ids": ids.toString()}, function (result) {
+                    if (result.code == 200) {
+                        alert("删除成功");
+                        location.reload();
+                    } else {
+                        alert("删除失败")
+                    }
+                }, "json")
+            }
+        } else {
+            alert("请选择要删除的数据。")
+        }
+    }
+
+    //全选 不全选
+    function checkAll() {
+        $(".check_box").prop("checked", $("#all_check_box").prop("checked"));
+    }
+
+    function check() {
+        var childs = $(".check_box").length;
+        var checkedChilds = $(".check_box:checked").length;
+        if (childs == checkedChilds) {
+            $("#all_check_box").prop("checked", true);
+        } else {
+            $("#all_check_box").prop("checked", false);
+        }
+    }
+
+
+    //图片上传
+    layui.use('upload', function () {
+        var $ = layui.jquery
+            , upload = layui.upload;
+
+        //普通图片上传--异步上传
+        var uploadInst = upload.render({
+            elem: '#addhouseMapbtn'
+            , url: '/user_addmap' //改成您自己的上传接口!!!!!!
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#addHouseMapImg').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                // alert(JSON.stringify(res.data));
+                //如果上传失败
+                if (res.code == 200) {
+                    $("#addhousemap").val(res.data);
+                    return layer.msg('上传成功');
+                    //给表单中的一个隐藏标签赋值，隐藏上传成功的文件名,给隐藏域赋值
+                } else {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var addHouseMapImgText = $('#addHouseMapImgText');
+                addHouseMapImgText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                addHouseMapImgText.find('.demo-reload').on('click', function () {
+                    uploadInst.upload();
+                });
+            }
+        });
+
+        //更新
+        //普通图片上传--异步上传
+        var uploadInstUpdate = upload.render({
+            elem: '#updatehouseMapbtn'
+            , url: '/user_addmap' //改成您自己的上传接口!!!!!!
+            , before: function (obj) {
+                //预读本地文件示例，不支持ie8
+                obj.preview(function (index, file, result) {
+                    $('#updateHouseMapImg').attr('src', result); //图片链接（base64）
+                });
+            }
+            , done: function (res) {
+                // alert(JSON.stringify(res));
+                //如果上传失败
+                if (res.code == 200) {
+                    $("#updatehousemap").val(res.data);
+                    return layer.msg('上传成功');
+                    //给表单中的一个隐藏标签赋值，隐藏上传成功的文件名,给隐藏域赋值
+                } else {
+                    return layer.msg('上传失败');
+                }
+                //上传成功
+            }
+            , error: function () {
+                //演示失败状态，并实现重传
+                var updateHouseMapImgText = $('#updateHouseMapImgText');
+                updateHouseMapImgText.html('<span style="color: #FF5722;">上传失败</span> <a class="layui-btn layui-btn-xs demo-reload">重试</a>');
+                updateHouseMapImgText.find('.demo-reload').on('click', function () {
+                    uploadInstUpdate.upload();
+                });
+            }
+        });
+    });
+
+    //新增数据
+    function addUser() {
+        var datas = $("#addForm").serialize();
+        $.post("/User_add", datas, function (result) {
+            //alert(JSON.stringify(result));
+            if (result.code == 200) {
+                alert("新增成功");
+                window.location.reload();
+            } else {
+                alert("新增失败");
+            }
+        }, "json");
+    }
+
+    function findUsers(){
+        let ryouid = $("#exportExcelSelect").val();
+        // alert(ryouid)
+        let pageIndex = 1;
+        let pageSize = 8;
+            var datas = {"pageIndex": pageIndex, "pageSize": pageSize,"ryouid":ryouid}
+            $.getJSON("/user_find_list", datas, function (data) {
+                // alert(JSON.stringify(data));
+                // 附上模板
+                $("#result1").setTemplateElement("template");
+                // 给模板加载数据
+                $("#result1").processTemplate(data);
+                // 附上模板
+                $("#resultNUmbers").setTemplateElement("templateNumbers");
+                // 给模板加载数据
+                $("#resultNUmbers").processTemplate(data);
+
+                //前端当前页码显示底色
+                $("[lang='nums']").each(function (index, element) {
+                    var t = $(element).find("a").text();
+                    if (t == data.pageIndex) {
+                        $(element).addClass("active");
+                    }
+                });
+            });
+    }
+
+
+
+    //弹出修改框
+    function showUpdatePage(id) {
+        $.getJSON("/user_findById", "id=" + id, function (result) {
+            // alert(JSON.stringify(result));
+            // 先清空表单信息,调用dom对象的重置方法
+            alert(result.data.dorm.buildid)
+            $("#empUpdateModal form")[0].reset();
+            $("[name='housemap']").val("");
+            // alert(result.data);
+            //绑定要回显的数据
+            $("[name='id']").val(result.data.id); //更新的隐藏域
+            $("[name='stu_ID']").val(result.data.stu_ID);
+            $("[name='name']").val(result.data.name);
+            $("[name='password']").val(result.data.password);
+            $("[name='birth']").val(result.data.birth);
+            $("[name='dname']").val(result.data.dorm.dname);
+            $("[name='own1']").val(result.data.dorm.buildid);
+            //绑定性别,回显
+            $("[name='sex']").each(function (index, element) {
+                if ($(element).val() == result.data.sex) {
+                    $(element).prop("checked", true);
+                } else {
+                    $(element).prop("checked", false);
+                }
+            });
+            //更新回显图片
+            $("#updateHouseMapImg").prop("src", "/images/users/" + result.data.image);
+
+
+            $("#empUpdateModal").modal({
+                backdrop: "static"
+            });
+        });
+    }
+
+    //更新信息
+    function updateUser() {
+        var datas = $("#updateForm").serialize();
+        $.post("/user_update", datas, function (result) {
+            if (result.code == 200) {
+                alert("修改成功");
+                window.location.reload();
+            } else {
+                alert("修改失败");
+            }
+        }, "json");
+    }
+
+    function exportExcel() {
+        var ryouid = $("#exportExcelSelect").val();
+        alert(ryouid)
+        location.href = "/user_exportExcel?ryouid=" + ryouid;
+    }
+
+
+    $("#batchImportExcel").click(function () {
+        // 先清空表单信息,调用dom对象的重置方法
+        $("#importExcelModal form")[0].reset();
+        $("#importExcelModal").modal({
+            backdrop: "static"
+        });
+    });
+
+    // logout
+    function adminLogout() {
+        if (confirm("确定要注销吗????")) {
+            $.getJSON("/admin_Logout", function (result) {
+                // alert(JSON.stringify(result));
+                if (result.code == 200) {
+                    // alert(111)
+                    alert("注销成功");
+                    location.href = "/admin/login.html";
+                } else {
+                    // alert(322)
+                    alert("操作失败");
+                }
+            });
+        }
+    }
+
+    function findStu() {
+        var input = $("#inputText").val();
+        let pageIndex = 1;
+        let pageSize = 8;
+        var datas = {"pageIndex": pageIndex, "pageSize": pageSize,"input":input}
+        $.getJSON("/findStu", datas, function (data) {
+            // alert(JSON.stringify(data));
+            // 附上模板
+            $("#result1").setTemplateElement("template");
+            // 给模板加载数据
+            $("#result1").processTemplate(data);
+            // 附上模板
+            $("#resultNUmbers").setTemplateElement("templateNumbers");
+            // 给模板加载数据
+            $("#resultNUmbers").processTemplate(data);
+
+            //前端当前页码显示底色
+            $("[lang='nums']").each(function (index, element) {
+                var t = $(element).find("a").text();
+                if (t == data.pageIndex) {
+                    $(element).addClass("active");
+                }
+            });
+        });
+
+    }
+</script>
+</body>
+
+</html>

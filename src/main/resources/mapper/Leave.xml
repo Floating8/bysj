@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+
+<mapper namespace="com.pzhu.bysj.dao.LeaveDao">
+    <insert id="add_leave">
+        insert into leaves values (null,#{lreason},#{user.id},#{ltime},#{duration},0,0)
+    </insert>
+    <update id="agree_leave">
+        update leaves set status = 1 where id = #{id}
+    </update>
+    <update id="leave_delete">
+        update leaves set del = 1 where id = #{id}
+    </update>
+    <update id="leaves_delete">
+        update leaves set del = 1 where id in
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <select id="totalCount" resultType="java.lang.Long">
+        select count(id) from leaves where DATEDIFF(now(),leaves.ltime)&lt;30 and del = 0
+    </select>
+    <select id="findLeaves" resultMap="LeavesMap">
+        select leaves.*,stu.name from leaves join stu on leaves.stuid = stu.Stu_ID where leaves.del = 0 order by leaves.id
+    </select>
+    <select id="findUnprocessed" resultType="com.pzhu.bysj.pojo.Leave">
+        select * from leaves where status=0 and del=0
+    </select>
+    <select id="user_findRepairInfo" resultType="com.pzhu.bysj.pojo.LeaveToShow">
+        select leaves.id,lreason,ltime,duration,status from leaves where leaves.stuid=#{stu_id} and del = 0
+
+    </select>
+
+    <resultMap id="LeavesMap" type="Leave">
+        <id property="id" column="id"/>
+        <result property="lreason" column="lreason"/>
+        <result property="ltime" column="ltime"/>
+        <result property="duration" column="duration"/>
+        <result property="status" column="status"/>
+        <result property="del" column="del"/>
+        <association property="user" javaType="User">
+            <id property="id" column="id"/>
+            <result property="name" column="name"/>
+        </association>
+    </resultMap>
+</mapper>

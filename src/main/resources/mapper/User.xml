@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.pzhu.bysj.dao.UserDao">
+    <insert id="addUser">
+        insert into stu values (null ,#{name},#{username},#{Stu_ID},#{password},#{nation},#{dorm.own},#{birth},#{image},#{sex},0)
+    </insert>
+    <insert id="insertBanch">
+        insert into stu values
+        <foreach collection="list" separator="," item="h">
+        (null ,#{h.name},#{h.username},#{h.Stu_ID},#{h.password},#{h.nation},#{h.dorm.id},#{h.birth},
+        null,#{h.sex},0)
+        </foreach>
+    </insert>
+    <update id="deleteUser">
+        update stu set del = 1 where id = #{id}
+    </update>
+    <update id="deleteUsers">
+        update stu set del = 1 where id in
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateUser">
+        update stu set name=#{name},password=#{password},sex = #{sex},
+        image=#{image},ryouid = #{dorm.own},birth = #{birth} where id = #{id}
+    </update>
+    <update id="user_updateStuInfo">
+        update stu set password=#{param1} ,sex =#{param2} where id = #{param3}
+    </update>
+
+    <select id="totalCount3" resultType="java.lang.Long">
+        select count(id) from stu where Stu_ID like #{input} or name like #{input} and del =0
+    </select>
+
+    <select id="totalCount" resultType="java.lang.Long">
+        select count(id) from stu where del = 0
+    </select>
+
+    <select id="Login" resultType="com.pzhu.bysj.pojo.User">
+            select * from stu where username = #{username} and password = #{password} and del = 0
+    </select>
+
+    <select id="getUserInfo" resultType="com.pzhu.bysj.pojo.User">
+            select * from stu where id=#{id}
+    </select>
+
+    <select id="getUserNaka" resultType="com.pzhu.bysj.pojo.User">
+            select * from stu where Stu_ID = #{stuId}
+    </select>
+    <select id="userFindById" resultMap="Users">
+        select stu.*,dorm.* from stu join dorm on stu.ryouid = dorm.id where stu.id = #{id}
+    </select>
+    <select id="findUsers" resultMap="Users">
+         select stu .*,dorm.dname,dorm.own
+         from stu inner join dorm on stu.ryouid = dorm.id
+         where stu.del=0 order by stu.id desc limit #{pageStart},#{pageSize}
+    </select>
+    <select id="totalCount2" resultType="java.lang.Long">
+        select count(id) from stu where del = 0 and ryouid = #{ryouid}
+    </select>
+    <select id="findUsers2" resultMap="Users">
+         select stu .*,dorm.dname,dorm.own
+         from stu inner join dorm on stu.ryouid = dorm.id
+         where stu.del=0 and ryouid = #{ryouid} order by stu.id desc limit #{pageStart},#{pageSize}
+    </select>
+    <select id="findCount" resultType="com.pzhu.bysj.pojo.Count">
+        select dorm.own name,count(stu.id) count from stu join dorm on  stu.ryouid = dorm.id where stu.del = 0
+        group by dorm.id
+    </select>
+    <select id="findUsersExcel" resultMap="Users">
+         select stu .*,dorm.dname,dorm.own
+         from stu inner join dorm on stu.ryouid = dorm.id and stu.ryouid=#{ryouid} and stu.del = 0
+    </select>
+    <select id="findUsersExcel2" resultMap="Users">
+        select stu .*,dorm.dname,dorm.own
+         from stu inner join dorm on stu.ryouid = dorm.id and stu.del = 0
+    </select>
+    <select id="findDorm" resultType="java.lang.String">
+        select ryouid from stu where Stu_ID = #{stuId} and del = 0
+    </select>
+    <select id="findStu" resultMap="Users">
+        select stu .*,dorm.dname,dorm.own
+         from stu inner join dorm on stu.ryouid = dorm.id where Stu_ID like '%${input}%' or name like '%${input}%' and stu.del =0 order by stu.id desc limit #{pageStart},#{pageSize}
+    </select>
+
+    <resultMap id="Users" type="User">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="Stu_ID" property="Stu_ID"/>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="nation" property="nation"/>
+        <result column="birth" property="birth"/>
+        <result column="image" property="image"/>
+        <result column="sex" property="sex"/>
+        <result column="ryouid" property="ryouid"/>
+        <association property="dorm" javaType="Dorm">
+
+            <result column="dname" property="dname"/>
+            <result column="own" property="own"/>
+            <result column="buildid" property="buildid"/>
+        </association>
+    </resultMap>
+</mapper>

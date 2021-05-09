@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.pzhu.bysj.dao.DormDao">
+    <insert id="Dorm_add">
+        insert into dorm values (null ,#{dname},#{buildid},null,null,#{own},0)
+    </insert>
+    <update id="dorm_delete">
+        update dorm set chief = null  and owner = null where id=#{id};
+    </update>
+    <update id="dorms_delete">
+        update dorm set chief = null  and owner = null where id in
+        <foreach collection="array" open="(" item="id" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="findDorms" resultType="com.pzhu.bysj.pojo.Dorm">
+        select * from dorm where del = 0
+    </select>
+    <select id="totalCount" resultType="java.lang.Long">
+        select count(id) from dorm where del = 0
+    </select>
+    <select id="findDorm" resultType="com.pzhu.bysj.pojo.Dorm">
+        select id from dorm where dorm.own = #{own} and dorm.dname = #{dname}
+    </select>
+    <select id="findBuildId" resultType="java.lang.Integer">
+        select buildid from dorm where id=#{dormId} and del = 0
+    </select>
+    <select id="findDormList" resultType="com.pzhu.bysj.pojo.Dorm">
+        select * from dorm where del = 0
+    </select>
+    <select id="dormFindById" resultType="java.lang.String">
+        select dorm.owner from dorm where id=#{id} and del = 0
+    </select>
+    <select id="findDormInfo" resultType="com.pzhu.bysj.pojo.Dorm">
+        select * from dorm where  id=#{id} and del=0
+    </select>
+</mapper>

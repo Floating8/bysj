@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>维修内容</title>
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        var id=location.href.split("=")[1];
+        //alert(id);
+        $.getJSON("/repair_findById",{"id":id},function (result) {
+            // alert(JSON.stringify(result));
+            $("#repairno").html(result.data.repairNo);
+            $("#content").html(result.data.content);
+        });
+    </script>
+</head>
+<body>
+   <h1 id="repairno"></h1>
+   <p id="content"></p>
+</body>
+</html>

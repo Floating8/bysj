@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.pzhu.bysj.dao.QfeeDao">
+    <insert id="qfee_add">
+        insert into qfee(id ,qfno,qftime,jftime ,money,remark,usecount,dormid,status,del)
+        values (null ,#{qfno},#{qftime},null,#{money},#{remark},null,#{dorm.id},0,0)
+    </insert>
+    <update id="pay_Qfee">
+        update qfee set status = 1 where id = #{id}
+    </update>
+    <update id="deleteQfee">
+        update qfee set del = 1 where id = #{id}
+    </update>
+
+    <update id="deletes_Qfee">
+        update qfee set del = 1 where id in
+        <foreach collection="array" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </update>
+    <update id="updateQfee">
+        update qfee set qftime=#{qftime},money=#{money},remark=#{remark} where id =#{id}
+    </update>
+    <select id="Qfees_findById" resultMap="Qfees">
+        select qfee.*,dorm.dname,dorm.own from qfee join dorm on qfee.dormid = dorm.id where qfee.del=0 and qfee.id=#{id}
+    </select>
+
+    <select id="findByDormId" resultType="com.pzhu.bysj.pojo.Qfee">
+        select * from qfee where dormid = #{id} and del = 0
+    </select>
+    <select id="totalCount" resultType="java.lang.Long">
+        select count(id) from qfee where del = 0
+    </select>
+    <select id="findQfees" resultMap="Qfees">
+        select qfee.*,dorm.dname,dorm.own from qfee join dorm on qfee.dormid = dorm.id where qfee.del=0
+    </select>
+    <select id="findAllFees" resultType="com.pzhu.bysj.pojo.FeeCate">
+        select feecate.* from feecate where del = 0
+    </select>
+
+    <resultMap id="Qfees" type="Qfee">
+        <id property="id" column="id"/>
+        <result property="qfno" column="qfno"/>
+        <result property="qftime" column="qftime"/>
+        <result property="jftime" column="jftime"/>
+        <result property="money" column="money"/>
+        <result property="remark" column="remark"/>
+        <result property="usecount" column="usecount"/>
+        <result property="status" column="status"/>
+        <association property="dorm" javaType="Dorm">
+            <id property="id" column="id"/>
+            <result property="dname" column="dname"/>
+            <result property="own" column="own"/>
+        </association>
+    </resultMap>
+</mapper>

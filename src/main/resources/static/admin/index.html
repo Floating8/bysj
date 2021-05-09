@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>后台桌面</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script src="../resources/js/jquery.jtemplates.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="../resources/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/vendor/linearicons/style.css">
+    <link rel="stylesheet" href="../resources/vendor/chartist/css/chartist-custom.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../resources/vendor/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="../resources/vendor/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+    <link rel="stylesheet" href="../resources/app/css/layui.css">
+</head>
+<style>
+    .ff{
+        font: 14px arial,sans-serif;
+    }
+    #qfnowidth{
+        width: 10px;
+    }
+    .main{
+          background: url("../resources/images/admin/1.jpg");
+      }
+</style>
+
+<body background="../resources/images/admin/1.jpg">
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div style="padding:0px 10px;" class="brand">
+            <a href="../"><img src="../resources/images/admin/logo1.jpg" alt="Amusing Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/logo.png" id="myhead" height="22px" class="img-circle" alt="Avatar">
+                            <span id="aname">admin</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:adminLogout();"><i class="lnr lnr-exit"></i> <span>注销</span></a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li>
+                        <a href="index.html" class="active"><i class="lnr lnr-home"></i> <span class="ff">后台桌面</span></a>
+                    </li>
+                    <li>
+                        <a href="userlist.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="pieUser.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生信息统计</span></a>
+                    </li>
+                    <li>
+                        <a href="leave.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生请假统计</span></a>
+                    </li>
+                    <li>
+                        <a href="backlate.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">学生晚归统计</span></a>
+                    </li>
+                    <li>
+                        <a href="repairinfolist.html" class=""><i class="lnr lnr-pencil"></i><span class="ff">申请维修信息</span></a>
+                    </li>
+                    <li>
+                        <a href="newslist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍公告信息</span></a>
+                    </li>
+                    <li>
+                        <a href="dormlist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="stafflist.html" class=""><i class="lnr lnr-users"></i> <span class="ff">维修员工信息</span></a>
+                    </li>
+                    <li>
+                        <a href="payinfolist.html" class=""><i class="lnr lnr-bookmark"></i> <span class="ff">缴欠费信息单</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <!-- OVERVIEW -->
+                <div class="panel panel-headline">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">宿舍概述</h3>
+                        <p class="panel-subtitle" id="updateTime"></p>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="metric" onmouseover="javascript:this.style.borderColor='#006eda'"
+                                     onmouseout="javascript:this.style.borderColor='#DCE6EB'"
+                                     onclick="javascript:location.href='/admin/dormlist.html'">
+                                    <span class="icon"><i class="fa fa-download"></i></span>
+                                    <p>
+                                        <span class="number" id="housetotal">3</span>
+                                        <span class="title">宿舍数</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric" onmouseover="javascript:this.style.borderColor='#006eda'"
+                                     onmouseout="javascript:this.style.borderColor='#DCE6EB'"
+                                     onclick="javascript:location.href='/admin/userlist.html'">
+                                    <span class="icon"><i class="fa fa-eye"></i></span>
+                                    <p>
+                                        <span class="number" id="usertotal">67</span>
+                                        <span class="title">学生</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric" onmouseover="javascript:this.style.borderColor='#006eda'"
+                                     onmouseout="javascript:this.style.borderColor='#DCE6EB'"
+                                     onclick="javascript:location.href='/admin/stafflist.html'">
+                                    <span class="icon"><i class="fa fa-shopping-bag"></i></span>
+                                    <p>
+                                        <span class="number" id="stafftotal">77</span>
+                                        <span class="title">维修员</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="metric" onmouseover="javascript:this.style.borderColor='#006eda'"
+                                     onmouseout="javascript:this.style.borderColor='#DCE6EB'"
+                                     onclick="javascript:location.href='/admin/leave.html'">
+                                    <span class="icon"><i class="fa fa-bar-chart"></i></span>
+                                    <p>
+                                        <span class="number" id="leaveNumber">85</span>
+                                        <span class="title">人请假</span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- END OVERVIEW -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <!-- RECENT PURCHASES -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">最近物业费收取情况</h3>
+                                <!-- <div class="right">
+                            <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                            <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
+                        </div> -->
+                            </div>
+                            <div class="panel-body no-padding">
+										<textarea id="template" style="display:none">
+										<table class="table table-striped">
+											<thead>
+												<tr>
+													<th id="qfnowidth">编号</th>
+													<th>宿舍</th>
+													<th>缴费项目</th>
+													<th>金额</th>
+													<th>欠/缴费时间</th>
+													<th>状态</th>
+												</tr>
+											</thead>
+											<tbody id="mytb">
+										{#foreach $T.datas as record}
+								<tr>
+									<td >{$T.record.qfno}</td>
+									<td>{$T.record.dorm.own}{$T.record.dorm.dname}</td>
+									<td>{$T.record.remark}</td>
+									<td>{$T.record.money}</td>
+                                   <td>
+								{#if $T.record.jftime==null}
+									 {$T.record.qftime}
+								{#else}
+									 {$T.record.jftime}
+								{#/if}
+							    </td>
+									<td>
+								{#if $T.record.status==1}
+									 <span class="label label-success">已收取</span>
+								{#else}
+									 <span class="label label-warning">未收取</span>
+								{#/if}
+							</td>
+								</tr>
+                                            {#/for}
+											</tbody>
+										</table>
+										</textarea>
+                                <div id="result1"></div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-md-6"><span class="panel-note"><i
+                                            class="fa fa-clock-o"></i>最近4条</span></div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="../admin/payinfolist.html" class="btn btn-primary">查看所有的收取情况</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END RECENT PURCHASES -->
+                    </div>
+                    <div class="col-md-6">
+                        <!-- RECENT PURCHASES -->
+                        <div class="panel">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">小区动态</h3>
+                                <!-- <div class="right">
+                            <button type="button" class="btn-toggle-collapse"><i class="lnr lnr-chevron-up"></i></button>
+                            <button type="button" class="btn-remove"><i class="lnr lnr-cross"></i></button>
+                        </div> -->
+                            </div>
+                            <div class="panel-body no-padding">
+                                 <textarea id="template2" style="display:none">
+                                <table class="table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>标题</th>
+                                        <th>发布时间</th>
+                                        <th>动态内容</th>
+                                        <th>发送者</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="mytb1">
+                                     {#foreach $T.datas as record}
+                                    <tr>
+                                        <td>{$T.record.title}</td>
+                                        <td>{$T.record.createtime}</td>
+                                        <td><a href="#"
+                                               onclick="window.open('/admin/news.html?id={$T.record.id}','详情','height=700, width=500, top=100, left=500')"
+                                               ;>查看</a></td>
+                                        <td>{$T.record.admin.username}</td>
+                                    </tr>
+                                     {#/for}
+                                    </tbody>
+                                </table>
+                                 </textarea>
+                                <!-- 输出元素 -->
+                                <div id="result2"></div>
+                            </div>
+                            <div class="panel-footer">
+                                <div class="row">
+                                    <div class="col-md-6"><span class="panel-note"><i
+                                            class="fa fa-clock-o"></i>最近4条</span></div>
+                                    <div class="col-md-6 text-right">
+                                        <a href="../admin/newslist.html" class="btn btn-primary">查看所有动态</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- END RECENT PURCHASES -->
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
+    </div>
+    <!-- END MAIN -->
+    <div class="clearfix"></div>
+    <footer>
+        <div class="container-fluid">
+        </div>
+    </footer>
+</div>
+<!-- END WRAPPER -->
+<!-- Javascript -->
+
+<script src="../resources/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+<script src="../resources/vendor/jquery.easy-pie-chart/jquery.easypiechart.min.js"></script>
+<script src="../resources/vendor/chartist/js/chartist.min.js"></script>
+<script src="../resources/vendor/klorofil-common.js"></script>
+<script>
+    //页面加载的时候，获取当前登录用户的信息
+    $(function () {
+
+        $.getJSON("/admin_getLoginUser", function (result) {
+            // alert(JSON.stringify(result));
+            $("#aname").text("欢迎您：" + result.data.aname);
+        });
+    });
+
+    /* my start 查询首页数据*/
+    $(function () {
+        $.ajax({
+            url: "/adminIndex_querySystemDatas",
+            type: "GET",
+            dataType: "json",
+            success: function (result) {
+                //floorsCount	901
+                //houserCount	102
+                // console.log(result);
+                $("#housetotal").text(result.dormTotalCount);
+                $("#usertotal").text(result.userTotalCount);
+                $("#stafftotal").text(result.repairTotalCount);
+                $("#leaveNumber").text(result.leaveTotalCount);
+            }
+        });
+    });
+
+
+    $(function () {
+        loadData(1, 4);
+    });
+
+    //首页加载数据
+    function loadData(pageIndex, pageSize) {
+        var datas = {"pageIndex": pageIndex, "pageSize": pageSize}
+        $.getJSON("/qfee_list", datas, function (data) {
+            //alert(JSON.stringify(data));
+            // 附上模板
+            $("#result1").setTemplateElement("template");
+            // 给模板加载数据
+            $("#result1").processTemplate(data);
+        });
+    }
+
+    // newlist
+    $(function () {
+        $.getJSON("/news_list",{"pageIndex": 1, "pageSize": 4},function (result) {
+            //alert(JSON.stringify(data));
+            // 附上模板
+            $("#result2").setTemplateElement("template2");
+            // 给模板加载数据
+            $("#result2").processTemplate(result);
+            // 附上模板
+        })
+    })
+
+    // logout
+    function adminLogout() {
+        if (confirm("确定要注销吗????")) {
+            $.getJSON("/admin_Logout", function (result) {
+                // alert(JSON.stringify(result));
+                if (result.code == 200) {
+                    // alert(111)
+                    alert("注销成功");
+                    location.href = "/admin/login.html";
+                } else {
+                    // alert(322)
+                    alert("操作失败");
+                }
+            });
+        }
+    }
+    /* my end */
+</script>
+</body>
+
+</html>

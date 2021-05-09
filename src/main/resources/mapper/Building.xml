@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--suppress ALL -->
+<mapper namespace="com.pzhu.bysj.dao.BuildingDao">
+
+    <select id="findAdminId" resultType="java.lang.Integer">
+        select adminid from building where id = #{buildId} and del = 0
+    </select>
+    <select id="findBuildName" resultType="java.lang.String">
+        select name from building where id = #{buildid} and del =0
+    </select>
+</mapper>

@@ -1,0 +1,596 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>缴欠费信息</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="../resources/css/bootstrap.min.css">
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script src="../resources/js/jquery.jtemplates.js"></script>
+    <script src="../resources/js/bootstrap.min.js"></script>
+    <!-- 时间插件-->
+    <script src="../resources/laydate/laydate.js"></script>
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="../resources/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../resources/vendor/linearicons/style.css">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="../resources/vendor/css/main.css">
+    <!-- FOR DEMO PURPOSES ONLY. You should remove this in your project -->
+    <link rel="stylesheet" href="../resources/vendor/css/demo.css">
+    <!-- GOOGLE FONTS -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+    <!-- ICONS -->
+    <link rel="shortcut icon" type="image/png" sizes="96x96" href="../resources/images/admin/logo1.jpg">
+    <link rel="stylesheet" href="../resources/app/css/layui.css">
+</head>
+<style>
+    .ff{
+        font: 14px arial,sans-serif;
+    }
+    .main{
+        background: url("../resources/images/admin/1.jpg");
+    }
+</style>
+
+<body background="../resources/images/admin/1.jpg">
+<!-- WRAPPER -->
+<div id="wrapper">
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-default navbar-fixed-top">
+        <div style="padding:0px 10px;" class="brand">
+            <a href="../"><img src="../resources/images/admin/logo1.jpg" alt="Amusing Logo" class="img-responsive logo"></a>
+        </div>
+        <div class="container-fluid">
+            <div class="navbar-btn">
+                <button type="button" class="btn-toggle-fullwidth"><i class="lnr lnr-arrow-left-circle"></i></button>
+            </div>
+
+            <div id="navbar-menu">
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <img src="../images/logo.png" id="myhead" height="22px" class="img-circle" alt="Avatar">
+                            <span id="aname">admin</span> <i class="icon-submenu lnr lnr-chevron-down"></i></a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="javascript:adminLogout();"><i class="lnr lnr-exit"></i> <span>注销</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!-- END NAVBAR -->
+    <!-- LEFT SIDEBAR -->
+    <div id="sidebar-nav" class="sidebar">
+        <div class="sidebar-scroll">
+            <nav>
+                <ul class="nav">
+                    <li>
+                        <a href="index.html" class=""><i class="lnr lnr-home"></i> <span class="ff">后台桌面</span></a>
+                    </li>
+                    <li>
+                        <a href="userlist.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="pieUser.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生信息统计</span></a>
+                    </li>
+                    <li>
+                        <a href="leave.html" class=""><i class="lnr lnr-user"></i> <span class="ff">学生请假统计</span></a>
+                    </li>
+                    <li>
+                        <a href="backlate.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">学生晚归统计</span></a>
+                    </li>
+                    <li>
+                        <a href="repairinfolist.html" class=""><i class="lnr lnr-pencil"></i><span class="ff">申请维修信息</span></a>
+                    </li>
+                    <li>
+                        <a href="newslist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍公告信息</span></a>
+                    </li>
+                    <li>
+                        <a href="dormlist.html" class=""><i class="lnr lnr-chart-bars"></i> <span class="ff">宿舍相关信息</span></a>
+                    </li>
+                    <li>
+                        <a href="stafflist.html" class=""><i class="lnr lnr-users"></i> <span class="ff">维修员工信息</span></a>
+                    </li>
+                    <li>
+                        <a href="payinfolist.html" class="active"><i class="lnr lnr-bookmark"></i> <span class="ff">缴欠费信息单</span></a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <!-- END LEFT SIDEBAR -->
+    <!-- MAIN -->
+    <div class="main">
+        <!-- 员工修改模态框 -->
+        <div class="modal fade" id="empUpdateModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">修改</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="updateForm">
+                            <div class="form-group">
+                                <label for="name_add_input" class="col-sm-2 control-label">欠费编号</label>
+                                <div class="col-sm-10">
+									<input type="hidden" name="id">
+                                    <input type="text" name="qfno" class="form-control" id="name_add_input"
+                                           placeholder="请输入欠缴费编号" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address_add_input" class="col-sm-2 control-label">欠费时间</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="qftime" class="form-control" id="address_add_input"
+                                           placeholder="请输入欠缴费时间" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="area_add_input" class="col-sm-2 control-label">欠费金额</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="money" class="form-control" id="area_add_input"
+                                           placeholder="请输入欠费金额">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height_add_input" class="col-sm-2 control-label">欠费宿舍</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="own" class="form-control" placeholder="请输入用量" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height_add_input" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="dname" class="form-control" placeholder="" readonly>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height_add_input" class="col-sm-2 control-label">欠费类别</label>
+                                <div class="col-sm-10">
+                                    <select id="updateFeeSelect" name="remark">
+                                        <!--<option>水费</option>-->
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="update_save_button" onclick="update_Qfee();">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 员工新增模态框 -->
+        <div class="modal fade" id="empAddModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content" style="width: 700px">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">新增</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form class="form-horizontal" id="addForm">
+                            <div class="form-group">
+                                <label for="name_add_input" class="col-sm-2 control-label">欠费时间</label>
+                                <div class="col-sm-10">
+                                    <input type="date" name="qftime" class="form-control" placeholder="请输入欠费时间">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="area_add_input" class="col-sm-2 control-label">欠费金额</label>
+                                <div class="col-sm-10">
+                                    <input type="text" name="money" class="form-control" placeholder="请输入欠费金额">
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height_add_input" class="col-sm-2 control-label">欠费类别</label>
+                                <div class="col-sm-10">
+                                    <select id="addFeeSelect" name="remark">
+                                        <!--<option>水费</option>-->
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height_add_input" class="col-sm-2 control-label">欠费寝室</label>
+                                <div class="col-sm-10">
+                                    <select id="addOwnSelect" name="own">
+                                        <!--<option>3栋201-小王</option>-->
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="height_add_input" class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <select id="addDnameSelect" name="dname">
+                                        <!--<option>3栋201-小王</option>-->
+                                    </select>
+                                    <span class="help-block"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="add_save_button" onclick="addQfees();">新增
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <div class="container-fluid">
+                <h3 class="page-title">缴欠费信息列表</h3>
+
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-8" style="text-align: right;">
+                        <button class="btn-primary" id="addBtn">新增</button>
+                        <button class="btn-danger" id="batchDeleteBtn" onclick="delete_Newses();">批量删除</button>
+                    </div>
+                </div>
+                <br/>
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- 模板内容 -->
+                        <textarea id="template" style="display:none">
+				<table class="table table-hover table-striped table-bordered" id="emps_table">
+					<thead>
+						<tr>
+							<th><input type="checkbox" id="all_check_box" onclick="checkAll();"/></th>
+							<th>id</th>
+							<th>缴费编号</th>
+							<th>欠费时间</th>
+							<th>缴费时间</th>
+							<th>缴收费用</th>
+							<th>缴欠费类别</th>
+                            <th>寝室</th>
+                            <th>缴欠费状态</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+					{#foreach $T.datas as record}
+						<tr><td><input type="checkbox" class="check_box" value="{$T.record.id}" onclick="check();"></td>
+							<td>{$T.record.id}</td>
+							<td>{$T.record.qfno}</td>
+							<td>{$T.record.qftime}</td>
+							<td>{$T.record.jftime==null?'':$T.record.jftime}</td>
+							<td>{$T.record.money}</td>
+							<td>{$T.record.remark}</td>
+                            <td>{$T.record.dorm.own}{$T.record.dorm.dname}</td>
+							<td>
+								{#if $T.record.status==1}
+									 <span class="label label-success">已收取</span>
+								{#else}
+									 <span class="label label-warning">未收取</span>
+								{#/if}
+							</td>
+
+							<td><button class="btn-primary btn-xs" onclick="showupdateForm({$T.record.id});"><span
+                                    class="glyphicon glyphicon-pencil"></span>编辑</button>
+								<button class="btn-danger btn-xs" onclick="deleteQfee({$T.record.id});"><span
+                                        class="glyphicon glyphicon-trash"
+                                ></span>删除</button></td>
+						</tr>
+					  {#/for}
+					</tbody>
+				</table>
+				</textarea>
+                        <!-- 输出元素 -->
+                        <div id="result1"></div>
+                        <!-- 模板内容 -->
+                        <textarea id="templateNumbers" style="display:none">
+									<ul class="pagination" style="float: right;">
+										<li>
+											<a href="javascript:loadData(1,8);">首页</a>
+										</li>
+
+										{#if $T.pageIndex==1}
+											<li class="disabled">
+												<a href="#">«</a>
+											</li>
+										{#else}
+											<li>
+												<a href="javascript:loadData({$T.pageIndex-1},8);">«</a>
+											</li>
+										{#/if}
+
+										{#foreach $T.numbers as record}
+											<li lang="nums">
+												<a href="javascript:loadData({$T.record},8);">{$T.record}</a>
+											</li>
+										{#/for}
+
+
+										{#if $T.pageIndex==$T.pageCount}
+											<li class="disabled">
+												<a href="#">»</a>
+											</li>
+										{#else}
+											<li>
+											  <a href="javascript:loadData({$T.pageIndex+1},8);">»</a>
+											</li>
+										{#/if}
+
+										<li>
+											<a href="javascript:loadData({$T.pageCount},8);">末页</a>
+										</li>
+
+										<li>
+											<a>共{$T.pageCount}页</a>
+										</li>
+										<li>
+											<a>共{$T.totalCount}条</a>
+										</li>
+									</ul>
+								  </textarea>
+
+                        <!-- 输出元素 -->
+                        <div id="resultNUmbers"></div>
+
+                    </div>
+
+
+                </div>
+
+                <div class="row">
+                    <div style="position: fixed;top:500px;left:300px;font-size: 15px;" class="col-md-6" id="page_inf">
+
+                    </div>
+                    <div style="position: fixed;top:470px;left:800px;font-size: 15px;" class="col-md-6">
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination" id="navUl">
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+
+            <!-- END MAIN CONTENT -->
+        </div>
+    </div>
+
+        <!-- END MAIN -->
+        <div class="clearfix"></div>
+
+        <footer>
+
+            <div class="container-fluid">
+            </div>
+        </footer>
+    </div>
+    <!-- END WRAPPER -->
+    <!-- Javascript -->
+    <script src="../resources/vendor/jquery-slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../resources/vendor/klorofil-common.js"></script>
+    <script>
+        //页面打开，自动加载分页数据
+        $(function () {
+            loadData(1, 8);
+            //异步绑定楼管下拉框--新增
+            $.getJSON("/qfee_findHousers", function (result) {
+                //alert(JSON.stringify(result));
+                for (var i = 0; i < result.length; i++) {
+                    //新增的模态下拉框绑定
+                    $("#addHousersSelect").append("<option value='" + result[i].id + "'>" + result[i].depart + "--" + result[i].houser + "</option>");
+                    //更新的模态下拉框绑定
+                    $("#updateHousersSelect").append("<option value='" + result[i].id + "'>" + result[i].depart + "--" + result[i].houser + "</option>");
+                }
+            });
+
+            $.getJSON("/qfee_findFees", function (result) {
+                //alert(JSON.stringify(result));
+                for (var i = 0; i < result.length; i++) {
+                    //新增的模态下拉框绑定
+                    $("#addFeeSelect").append("<option value='" + result[i].id + "'>" + result[i].remark + "</option>");
+                    //更新的模态下拉框绑定
+                    $("#updateFeeSelect").append("<option value='" + result[i].id + "'>" + result[i].remark + "</option>");
+                }
+            });
+
+
+            $.getJSON("/dorm_find",function (result) {
+                for (let i = 0; i < result.length; i++) {
+                    $("#addOwnSelect").append("<option value='"+result[i].id+"'>"+result[i].own+"</option>")
+                    $("#addDnameSelect").append("<option value='"+result[i].id+"'>"+result[i].dname+"</option>")
+                }
+            })
+
+        });
+
+        //首页加载数据
+        function loadData(pageIndex, pageSize) {
+            var datas = {"pageIndex": pageIndex, "pageSize": pageSize};
+            $.getJSON("/qfee_list", datas, function (data) {
+                // alert(JSON.stringify(data));
+                // 附上模板
+                $("#result1").setTemplateElement("template");
+                // 给模板加载数据
+                $("#result1").processTemplate(data);
+                // 附上模板
+                $("#resultNUmbers").setTemplateElement("templateNumbers");
+                // 给模板加载数据
+                $("#resultNUmbers").processTemplate(data);
+                //前端当前页码显示底色
+                $("[lang='nums']").each(function (index, element) {
+                    var t = $(element).find("a").text();
+                    if (t == data.pageIndex) {
+                        $(element).addClass("active");
+                    }
+                });
+            });
+        }
+
+        //点击新增按钮，弹出模态框
+        $("#addBtn").click(function () {
+            // 先清空表单信息,调用dom对象的重置方法
+            $("#empAddModal form")[0].reset();
+            $("#empAddModal").modal({
+                backdrop: "static"
+            });
+        });
+
+
+        //新增欠费信息
+        function addQfees() {
+            var datas = $("#addForm").serialize();
+           // alert(datas);
+            $.post("/qfee_add", datas, function (result) {
+                if (result.code == 200) {
+                    alert("新增成功");
+                    window.location.reload();
+                } else {
+                    alert("新增失败");
+                }
+            });
+        }
+
+        //新增文本框的时间插件  更好用的时间插件参考： http://www.my97.net/demo/resource/2.4.asp
+        function showaddtime() {
+            laydate.skin('molv');//切换皮肤，请查看skins下面皮肤库
+            laydate({elem: '#addtime'});//绑定元素
+        }
+
+        function deleteQfee(id) {
+            if (confirm("是否要删除？")) {
+                $.post("/delete_Qfee", {"id": id}, function (result) {
+                    if (result.code == 200) {
+                        alert("删除成功");
+                        location.reload();
+                    } else {
+                        alert("删除失败");
+                    }
+                })
+            }
+        }
+
+
+		//批量删除
+		function delete_Newses() {
+			var ids = new Array();
+			var childs = $(".check_box:checked");
+			if (childs.length > 0) {
+				if (confirm("确定要删除吗？")) {
+					for (let i = 0; i < childs.length; i++) {
+						var id = childs[i].value;
+						ids.push(id);
+					}
+					$.post("/Qfee_deletes", {"ids": ids.toString()}, function (result) {
+						if (result.code == 200) {
+							alert("删除成功");
+							location.reload();
+						} else {
+							alert("删除失败")
+						}
+					}, "json")
+				}
+			} else {
+				alert("请选择要删除的数据。")
+			}
+		}
+
+
+		//是否全选
+		function checkAll() {
+			$(".check_box").prop("checked", $("#all_check_box").prop("checked"));
+		}
+
+		function check() {
+			var childs = $(".check_box").length;
+			var checkedChilds = $(".check_box:checked").length;
+			if (childs == checkedChilds) {
+				$("#all_check_box").prop("checked", true);
+			} else {
+				$("#all_check_box").prop("checked", false);
+			}
+		}
+
+		//更新
+		function update_Qfee() {
+			var datas = $("#updateForm").serialize();
+			//alert(datas);
+			$.post("/Qfees_update", datas, function (result) {
+				//alert(result);
+				if (result.code == 200) {
+					alert("更新成功");
+					window.location.reload();
+				} else {
+					alert("更新失败");
+				}
+			});
+		}
+
+
+		function showupdateForm(id) {
+			// 先清空表单信息,调用dom对象的重置方法
+			$("#empUpdateModal form")[0].reset();
+
+			$.getJSON("/Qfees_findById", {"id": id}, function (result) {
+				// alert(JSON.stringify(result.id));
+				$("[name='id']").val(result.data.id);
+				$("[name='qfno']").val(result.data.qfno);
+				$("[name='money']").val(result.data.money);
+				$("[name='remark']").val(result.data.remark);
+                $("[name='own']").val(result.data.dorm.own);
+                $("[name='dname']").val(result.data.dorm.dname);
+				$("[name='qftime']").val(result.data.qftime);
+				//$("#content").html(result.content);
+
+				$("#empUpdateModal").modal({
+					backdrop: "static"
+				});
+			});
+
+		}
+
+        // logout
+        function adminLogout() {
+            if (confirm("确定要注销吗????")) {
+                $.getJSON("/admin_Logout", function (result) {
+                    // alert(JSON.stringify(result));
+                    if (result.code == 200) {
+                        // alert(111)
+                        alert("注销成功");
+                        location.href = "/admin/login.html";
+                    } else {
+                        // alert(322)
+                        alert("操作失败");
+                    }
+                });
+            }
+        }
+
+        //页面加载的时候，获取当前登录用户的信息
+        $(function () {
+
+            $.getJSON("/admin_getLoginUser", function (result) {
+                // alert(JSON.stringify(result));
+                $("#aname").text("欢迎您：" + result.data.aname);
+            });
+        });
+    </script>
+</body>
+
+</html>

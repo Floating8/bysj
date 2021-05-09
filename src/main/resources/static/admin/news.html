@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>公告内容</title>
+    <script src="../resources/js/jquery-3.2.1.js"></script>
+    <script type="text/javascript">
+        var id=location.href.split("=")[1];
+        //alert(id);
+        $.getJSON("/news_findById",{"id":id},function (result) {
+            //alert(JSON.stringify(result));
+            $("#title").html(result.data.title);
+            $("#content").html(result.data.content);
+        });
+    </script>
+</head>
+<body>
+   <h1 id="title"></h1>
+   <p id="content"></p>
+    <!--<p>
+        <img src="/images/news/faf71d99-accb-47d7-82cc-b810fab9003f.jpg" alt="" />
+    </p>
+    <p>
+        <br />
+    </p>
+    <p>
+        哈哈&nbsp; 呵呵呵 嘿嘿~~~~~~~
+    </p>-->
+</body>
+</html>
